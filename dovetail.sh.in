@@ -1,0 +1,28 @@
+#!/bin/sh
+
+VERSION=
+LUA_SHARE=
+
+usage() {
+    echo 'usage: dovetail [options]
+
+options:
+  -h  Show help message
+  -v  Show version'
+}
+
+version() {
+    echo "dovetail $VERSION
+
+$(awesome --version)"
+}
+
+while getopts ':hv' opt; do
+    case "$opt" in
+        h) usage; exit ;;
+        v) version; exit ;;
+        *) usage >&2; exit 2
+    esac
+done
+
+exec awesome --no-argb -s "$LUA_SHARE" -c "$LUA_SHARE"/init.lua

@@ -1,0 +1,14 @@
+[Unit]
+Description=Dovetail window manager
+Requisite=sessiond.service
+Requires=dbus.service
+Wants=pulseaudio.service upower.service
+After=pulseaudio.service upower.service
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/dovetail
+ExecStopPost=/usr/bin/sessionctl stop
+
+[Install]
+WantedBy=graphical-session.target

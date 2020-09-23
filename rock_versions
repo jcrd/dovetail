@@ -1,0 +1,10 @@
+uuid             0.2
+awesome-dovetail 0.1.0
+awesome-ez       0.2.0
+awesome-launch   0.2.0
+awesome-viewport 0.1.0
+dbus_proxy       0.10.1
+enum             0.1.1
+pulseaudio_dbus  0.12.0
+sessiond_dbus    0.1.0
+upower_dbus      0.3.0
