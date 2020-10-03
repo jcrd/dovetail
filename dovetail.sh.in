@@ -1,7 +1,7 @@
 #!/bin/sh
 
-VERSION=
-LUA_SHARE=
+readonly VERSION=
+readonly LUA_SHARE=
 
 usage() {
     echo 'usage: dovetail [options]
