@@ -15,7 +15,7 @@ LUA_SHARE := $(SHAREPREFIX)/dovetail
 DEFAULT_CONFIG ?= /etc/xdg/dovetail/config.lua
 USER_CONFIG ?= dovetail/config.lua
 
-all: builddir/dovetail.sh builddir/init.lua lua_modules
+all: builddir/dovetail.sh builddir/init.lua
 
 builddir/dovetail.sh: dovetail.sh.in
 	mkdir -p builddir
@@ -33,7 +33,7 @@ builddir/init.lua: init.lua.in
 tree:
 	./scripts/make_tree.sh $(LUA_TREE)
 
-lua_modules: tree
+lua_modules: clean-modules
 	mkdir -p $(LUA_MODULES)
 	cp -r $(LUA_TREE_SHARE)/* $(LUA_MODULES)
 
@@ -58,10 +58,12 @@ uninstall:
 clean:
 	rm -fr builddir
 
-clean-modules:
+clean-tree:
 	rm -fr $(LUA_TREE)
+
+clean-modules:
 	rm -fr $(LUA_MODULES)
 
-clean-all: clean clean-modules
+clean-all: clean clean-tree clean-modules
 
-.PHONY: all install uninstall clean clean-modules clean-all
+.PHONY: all install uninstall clean clean-tree clean-modules clean-all
