@@ -4,7 +4,6 @@ local wibox = require('wibox')
 
 local launch = require('awesome-launch')
 local session = require('sessiond_dbus')
-local viewport = require('awesome-viewport')
 
 local audio = require('dovetail.widgets.audio')
 local config = require('dovetail.config')
@@ -69,8 +68,6 @@ screen.connect_signal('request::desktop_decoration', function (s)
         selected = true,
         layout = awful.layout.layouts[1],
     })
-
-    viewport.connect(s)
 
     s.dovetail_taglist = awful.widget.taglist {
         screen = s,

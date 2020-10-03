@@ -1,15 +1,13 @@
 local awful = require('awful')
 
 local dovetail = require('awesome-dovetail')
-local viewport = require('awesome-viewport')
+local selected_tag = require('dovetail.util').selected_tag
 local workspace = require('awesome-launch.workspace')
 
 local config = require('dovetail.config')
 local menu = require('dovetail.menu')
 
 local ws = {}
-
-dovetail.get_tag = viewport
 
 tag.connect_signal('request::default_layouts', function ()
     awful.layout.append_default_layouts {
@@ -48,7 +46,7 @@ function ws.with(index, func, name, prompt)
 end
 
 function ws.next(i, func, prompt)
-    local v = viewport()
+    local v = selected_tag()
     index = v.index + i
     if index < 1 then
         index = #v.screen.tags + 1

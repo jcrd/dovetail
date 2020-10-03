@@ -6,11 +6,11 @@ local dovetail = require('awesome-dovetail')
 local launch = require('awesome-launch')
 local panel = require('awesome-launch.panel')
 local session = require('sessiond_dbus')
-local viewport = require('awesome-viewport')
 
 local audio = require('dovetail.widgets.audio')
 local config = require('dovetail.config')
 local menu = require('dovetail.menu')
+local selected_tag = require('dovetail.util').selected_tag
 local ws = require('dovetail.workspace')
 
 local cmd = {}
@@ -29,7 +29,7 @@ function cmd.launch(args)
             end)
         end
     end
-    launch.spawn.here(viewport).raise_or_spawn(args.cmd, args)
+    launch.spawn.here().raise_or_spawn(args.cmd, args)
 end
 
 function cmd.relaunch(args)
@@ -41,7 +41,7 @@ cmd.workspace = {}
 
 function cmd.workspace.view(index)
     ws.with(index, function (t)
-        if t == viewport() then
+        if t == selected_tag() then
             awful.tag.history.restore()
         else
             t:view_only()
@@ -58,9 +58,9 @@ function cmd.workspace.prev(prompt)
 end
 
 function cmd.workspace.restore()
-    local v = viewport()
+    local v = selected_tag()
     awful.tag.history.restore()
-    if viewport() == v then
+    if selected_tag() == v then
         ws.with(nil, function (t)
             t:view_only()
         end)
@@ -97,7 +97,7 @@ end
 
 function cmd.client.set_master(c)
     if not dovetail.layout() then
-        awful.layout.set(awful.layout.layouts[1], viewport())
+        awful.layout.set(awful.layout.layouts[1], selected_tag())
     end
     if c ~= awful.client.getmaster(c.screen) then
         awful.client.setmaster(c)
