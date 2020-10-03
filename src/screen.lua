@@ -40,7 +40,7 @@ local info = {
 
 if config.options.enable_battery_widget then
     table.insert(info, 1, {
-        require('battery').widget.time(),
+        require('dovetail.widgets.battery').widget.time(),
         widget = wibox.container.margin,
         left = beautiful.info_margins,
         right = beautiful.info_margins,
