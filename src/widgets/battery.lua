@@ -26,7 +26,7 @@ local function format_sec(s)
 end
 
 local function format_icon(i)
-    return '<span rise='4000'>'..i..'</span>'
+    return '<span rise="4000">'..i..'</span>'
 end
 
 local function get_icon(percent)
