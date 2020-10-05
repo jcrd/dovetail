@@ -36,10 +36,7 @@ function ws.with(index, prompt, func, name)
             if name == '' then
                 return
             end
-            local n = name or new_name
-            t = workspace.new(n, {props={
-                layout = awful.layout.layouts[1],
-            }})
+            t = workspace.new(name or new_name)
         end
     end
     func(t)
