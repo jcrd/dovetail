@@ -30,7 +30,7 @@ function ws.with(index, func, name, prompt)
             t = s.tags[1]
         else
             if not name and prompt then
-                menu.prompt('name', function (n) with_tag(index, func, n) end)
+                menu.prompt('name', function (n) ws.with(index, func, n) end)
                 return
             end
             if name == '' then
