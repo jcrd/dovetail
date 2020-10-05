@@ -40,7 +40,7 @@ end
 cmd.workspace = {}
 
 function cmd.workspace.view(index)
-    ws.with(index, function (t)
+    ws.with(index, false, function (t)
         if t == selected_tag() then
             awful.tag.history.restore()
         else
@@ -50,18 +50,18 @@ function cmd.workspace.view(index)
 end
 
 function cmd.workspace.next(prompt)
-    ws.next(1, nil, prompt)
+    ws.next(1, prompt)
 end
 
 function cmd.workspace.prev(prompt)
-    ws.next(-1, nil, prompt)
+    ws.next(-1, prompt)
 end
 
 function cmd.workspace.restore()
     local v = selected_tag()
     awful.tag.history.restore()
     if selected_tag() == v then
-        ws.with(nil, function (t)
+        ws.with(nil, false, function (t)
             t:view_only()
         end)
     end
@@ -81,7 +81,7 @@ end
 cmd.client = {}
 
 function cmd.client.move_to_workspace(index, follow)
-    ws.with(index, function (t)
+    ws.with(index, false, function (t)
         if client.focus then
             client.focus:move_to_tag(t)
             if follow then

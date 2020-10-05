@@ -16,7 +16,7 @@ tag.connect_signal('request::default_layouts', function ()
     }
 end)
 
-function ws.with(index, func, name, prompt)
+function ws.with(index, prompt, func, name)
     local s = awful.screen.focused()
     index = index or #s.tags + 1
     if index > #s.tags + 1 then
@@ -45,18 +45,18 @@ function ws.with(index, func, name, prompt)
     func(t)
 end
 
-function ws.next(i, func, prompt)
+function ws.next(i, prompt, func)
     local v = selected_tag()
     index = v.index + i
     if index < 1 then
         index = #v.screen.tags + 1
     end
-    ws.with(index, function (t)
+    ws.with(index, prompt, function (t)
         if func then
             func(t)
         end
         t:view_only()
-    end, nil, prompt)
+    end)
 end
 
 return ws
