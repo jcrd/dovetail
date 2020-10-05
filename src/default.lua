@@ -36,4 +36,13 @@ default.theme = {
     clock_format = '<span size=\'smaller\' rise=\'1000\'></span> %a, %b %e  %l:%M%P',
 }
 
+default.options = {
+    default_workspace_name = 'main',
+    new_workspace_name = 'scratch',
+    workspace_search_paths = {},
+    brightness_step = 10,
+    hide_mouse_on_startup = true,
+    enable_battery_widget = os.getenv('CHASSIS') == 'laptop',
+}
+
 return default

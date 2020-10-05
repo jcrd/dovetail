@@ -121,22 +121,16 @@ function config_env.theme(t)
 end
 
 function config_env.options(t)
+    t = t or {}
+    setmetatable(t, {__index = default.options})
+
     config.options = t
 
-    if t.workspace_search_paths then
-        menu.workspace.search_paths = t.workspace_search_paths
-    end
+    menu.workspace.search_paths = t.workspace_search_paths
+    session.backlights.default.brightness_step = t.brightness_step
 
-    if t.brightness_step then
-        session.backlights.default.brightness_step = t.brightness_step
-    end
-
-    if t.hide_mouse_on_startup ~= false then
+    if t.hide_mouse_on_startup then
         awesome.connect_signal('startup', cmd.mouse.hide)
-    end
-
-    if t.enable_battery_widget == nil then
-        t.enable_battery_widget = os.getenv('CHASSIS') == 'laptop'
     end
 end
 

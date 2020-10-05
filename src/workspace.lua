@@ -24,7 +24,7 @@ function ws.with(index, func, name, prompt)
     end
     local t = s.tags[index]
     if not t then
-        local new_name = config.options.new_workspace_name or 'scratch'
+        local new_name = config.options.new_workspace_name
         local p = s.tags[index - 1]
         if p and p.name == new_name and #p:clients() == 0 then
             t = s.tags[1]
