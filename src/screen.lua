@@ -1,5 +1,6 @@
 local awful = require('awful')
 local beautiful = require('beautiful')
+local gears = require('gears')
 local wibox = require('wibox')
 
 local launch = require('awesome-launch')
@@ -7,6 +8,7 @@ local session = require('sessiond_dbus')
 
 local audio = require('dovetail.widgets.audio')
 local config = require('dovetail.config')
+local ws = require('dovetail.workspace')
 
 local clock_widget = wibox.widget.textclock(beautiful.clock_format)
 
@@ -46,8 +48,41 @@ if config.options.enable_battery_widget then
     })
 end
 
+local function index_markup(i)
+    i = i or #awful.screen.focused().tags + 1
+    return '<b> '..i..' </b>'
+end
+
 local function set_taglist_index(self, _, i)
-    self:get_children_by_id('index_role')[1].markup = '<b> '..i..' </b>'
+    self:get_children_by_id('index_role')[1].markup = index_markup(i)
+end
+
+local function new_workspace_indicator(s)
+    local w = wibox.widget {
+        {
+            id = 'id_index',
+            markup = index_markup(),
+            widget = wibox.widget.textbox,
+        },
+        {
+            markup = '<b><big>+</big></b>',
+            visible = not ws.emptyp(),
+            widget = wibox.widget.textbox,
+        },
+        layout = wibox.layout.fixed.horizontal,
+    }
+    local function update()
+        w.visible = not ws.emptyp()
+        if w.visible then
+            w.id_index.markup = index_markup()
+        end
+    end
+    s:connect_signal('tag::history::update', function ()
+        gears.timer.delayed_call(update)
+    end)
+    tag.connect_signal('tagged', update)
+    tag.connect_signal('untagged', update)
+    return w
 end
 
 screen.connect_signal('request::desktop_decoration', function (s)
@@ -69,29 +104,33 @@ screen.connect_signal('request::desktop_decoration', function (s)
         layout = awful.layout.layouts[1],
     })
 
-    s.dovetail_taglist = awful.widget.taglist {
-        screen = s,
-        filter = awful.widget.taglist.filter.all,
-        widget_template = {
-            {
-                {
-                    id = 'index_role',
-                    widget = wibox.widget.textbox,
-                },
+    s.dovetail_taglist = {
+        awful.widget.taglist {
+            screen = s,
+            filter = awful.widget.taglist.filter.all,
+            widget_template = {
                 {
                     {
-                        id = 'text_role',
+                        id = 'index_role',
                         widget = wibox.widget.textbox,
                     },
-                    id = 'background_role',
-                    widget = wibox.container.background,
+                    {
+                        {
+                            id = 'text_role',
+                            widget = wibox.widget.textbox,
+                        },
+                        id = 'background_role',
+                        widget = wibox.container.background,
+                    },
+                    layout = wibox.layout.fixed.horizontal,
                 },
                 layout = wibox.layout.fixed.horizontal,
+                create_callback = set_taglist_index,
+                update_callback = set_taglist_index,
             },
-            layout = wibox.layout.fixed.horizontal,
-            create_callback = set_taglist_index,
-            update_callback = set_taglist_index,
         },
+        new_workspace_indicator(s),
+        layout = wibox.layout.fixed.horizontal,
     }
 
     s.dovetail_clientlist = {

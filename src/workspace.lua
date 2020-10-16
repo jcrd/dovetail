@@ -16,6 +16,12 @@ tag.connect_signal('request::default_layouts', function ()
     }
 end)
 
+function ws.emptyp(tag)
+    tag = tag or selected_tag()
+    local n = config.options.new_workspace_name
+    return tag and tag.name == n and #tag:clients() == 0
+end
+
 function ws.with(index, prompt, func, name)
     local s = awful.screen.focused()
     index = index or #s.tags + 1
@@ -24,9 +30,7 @@ function ws.with(index, prompt, func, name)
     end
     local t = s.tags[index]
     if not t then
-        local new_name = config.options.new_workspace_name
-        local p = s.tags[index - 1]
-        if p and p.name == new_name and #p:clients() == 0 then
+        if ws.emptyp(s.tags[index - 1]) then
             t = s.tags[1]
         else
             if not name and prompt then
@@ -36,7 +40,7 @@ function ws.with(index, prompt, func, name)
             if name == '' then
                 return
             end
-            t = workspace.new(name or new_name)
+            t = workspace.new(name or config.options.new_workspace_name)
         end
     end
     func(t)
