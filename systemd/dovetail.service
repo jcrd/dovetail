@@ -12,3 +12,4 @@ Restart=always
 
 [Install]
 WantedBy=graphical-session.target
+Alias=window-manager.service
