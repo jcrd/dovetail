@@ -1,8 +1,8 @@
 [Unit]
 Description=Dovetail window manager
-Requires=dbus.service
+Requires=dbus.socket
 Wants=sessiond.service pulseaudio.service upower.service
-After=sessiond.service pulseaudio.service upower.service
+After=sessiond.service pulseaudio.service upower.service dbus.socket
 PartOf=graphical-session.target
 
 [Service]
