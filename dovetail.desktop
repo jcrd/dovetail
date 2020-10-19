@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=dovetail
+Comment=Dovetail window manager
+TryExec=dovetail
+Exec=sessionctl run dovetail.service
+Type=Application

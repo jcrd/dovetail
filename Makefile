@@ -48,6 +48,8 @@ install:
 	cp -p systemd/dovetail.service $(DESTDIR)$(LIBPREFIX)/systemd/user
 	mkdir -p $(DESTDIR)/etc/xdg/dovetail
 	cp -p config.def.lua $(DESTDIR)/etc/xdg/dovetail/config.lua
+	mkdir -p $(DESTDIR)$(SHAREPREFIX)/xsessions
+	cp -p dovetail.desktop $(DESTDIR)$(SHAREPREFIX)/xsessions
 
 uninstall:
 	rm -f $(DESTDIR)$(BINPREFIX)/dovetail
