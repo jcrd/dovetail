@@ -1,7 +1,8 @@
 [Unit]
 Description=Dovetail window manager
 Requires=sessiond-session.target
-After=sessiond.service
+Wants=wm-launchd.service
+After=wm-launchd.service sessiond.service
 Wants=pulseaudio.service upower.service
 After=pulseaudio.service upower.service
 PartOf=graphical-session.target
