@@ -67,8 +67,6 @@ function cmd.workspace.restore()
     end
 end
 
-cmd.workspace.new = menu.workspace.new
-
 function cmd.workspace.toggle_panel(args)
     panel.toggle(args.cmd, args)
 end
