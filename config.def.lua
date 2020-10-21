@@ -131,8 +131,8 @@ buttons {
 
 rules {
     {
-        title = 'Netflix',
-        class = 'chromium',
+        rule = {class = 'Chromium'},
+        names = 'Netflix',
         inhibit = true,
     },
 }

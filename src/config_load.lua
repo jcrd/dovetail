@@ -156,6 +156,27 @@ function config_env.notifications(t)
 end
 
 function config_env.rules(t)
+    local function inhibitor_who(rule)
+        if rule.who then
+            return rule.who
+        end
+        local who
+        for _, v in pairs(rule) do
+            if who then
+                break
+            end
+            if type(v) == 'table' then
+                for k, n in pairs(v) do
+                    if k == 'class' or k == 'instance' then
+                        who = n
+                        break
+                    end
+                end
+            end
+        end
+        return who or 'unknown'
+    end
+
     ruled.client.connect_signal('request::rules', function ()
         ruled.client.append_rule {
             id = 'global',
@@ -168,15 +189,14 @@ function config_env.rules(t)
             },
         }
 
-        for _, rule in ipairs(t) do
-            local r = {
-                id = uuid(),
-                rule = rule,
-            }
-            if rule.inhibit then
-                local who = rule.class or rule.instance or 'unknown'
-                r.callback = inhibit.callback(who, rule.names)
+        for _, r in ipairs(t) do
+            if r.inhibit then
+                r.callback = inhibit.callback(inhibitor_who(r), r.names)
+                r.inhibit = nil
+                r.names = nil
+                r.who = nil
             end
+            r.id = uuid()
             ruled.client.append_rule(r)
         end
     end)

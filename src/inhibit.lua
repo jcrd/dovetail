@@ -36,6 +36,9 @@ local function toggle_inhibit(who, names)
 end
 
 function inhibit.callback(who, names)
+    if not names or type(names) == 'string' then
+        names = {names}
+    end
     return function (c)
         c.toggle_inhibit = toggle_inhibit(who, names)
         if #names > 0 then
