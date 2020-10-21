@@ -2,6 +2,8 @@ local awful = require('awful')
 
 local workspace = require('awesome-launch.workspace')
 
+local selected_tag = require('dovetail.util').selected_tag
+
 local menu = {}
 
 local env = os.getenv('WM_LAUNCH_WORKSPACE_FILENAME')
@@ -22,6 +24,15 @@ function menu.workspace.new()
         out = string.gsub(out, '\n', '')
         if out ~= '' then
             awful.spawn('wm-launch -w '..out)
+        end
+    end)
+end
+
+function menu.workspace.rename()
+    menu.prompt('rename', function (out)
+        local t = selected_tag()
+        if t and out ~= '' then
+            t.name = out
         end
     end)
 end

@@ -69,6 +69,7 @@ keys {
     -- Menu.
     ['M-p'] = cmd.menu.run,
     ['M-w'] = cmd.menu.new_workspace,
+    ['M-r'] = cmd.menu.rename_workspace,
 
     -- Launch clients.
     ['M-Return'] = {cmd.launch, clients.terminal},
