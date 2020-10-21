@@ -10,7 +10,8 @@ local session = require('sessiond_dbus')
 local audio = require('dovetail.widgets.audio')
 local config = require('dovetail.config')
 local menu = require('dovetail.menu')
-local selected_tag = require('dovetail.util').selected_tag
+local util = require('dovetail.util')
+local selected_tag = util.selected_tag
 local ws = require('dovetail.workspace')
 
 local cmd = {}
@@ -229,5 +230,8 @@ end
 function cmd.system.poweroff()
     awful.spawn('systemctl poweroff')
 end
+
+cmd.util = {}
+cmd.util.clientinfo = util.clientinfo
 
 return cmd
