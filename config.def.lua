@@ -88,6 +88,7 @@ keys {
     ['M-j'] = cmd.client.focus.next,
     ['M-k'] = cmd.client.focus.prev,
     ['M-f'] = cmd.client.focus.other,
+    ['M-S-f'] = cmd.client.focus.other_layer,
     ['M-o'] = cmd.client.toggle_max,
 
     -- Session.

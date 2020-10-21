@@ -141,6 +141,39 @@ function cmd.client.focus.prev()
     client_focus_next(-1)
 end
 
+function cmd.client.focus.other_layer()
+    if not client.focus then
+        return
+    end
+
+    local found
+
+    local function history_get(func)
+        local s = awful.screen.focused()
+        awful.client.focus.history.get(s, 0, function (c)
+            if not found and func(c) then
+                found = c
+                return true
+            end
+        end)
+    end
+
+    if client.focus.floating then
+        history_get(function (c)
+            return not c.floating
+        end)
+    else
+        history_get(function (c)
+            return c.floating
+        end)
+    end
+
+    if found then
+        found:emit_signal('request::activate',
+            'dovetail.cmd.client.focus.other_layer', {raise=true})
+    end
+end
+
 -- Menu.
 cmd.menu = {}
 cmd.menu.new_workspace = menu.workspace.new
