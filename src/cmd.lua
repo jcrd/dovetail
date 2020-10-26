@@ -125,9 +125,7 @@ cmd.client.focus = {}
 cmd.client.focus.other = dovetail.focus.other
 
 local function client_focus_next(i)
-    if dovetail.layout() then
-        dovetail.focus.byidx(i)
-    else
+    if not dovetail.focus.byidx(i) then
         awful.client.focus.byidx(i)
     end
 end
