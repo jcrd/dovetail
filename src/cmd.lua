@@ -79,6 +79,16 @@ end
 -- Clients.
 cmd.client = {}
 
+function cmd.client.normalize(c)
+    c.floating = false
+    c.fullscreen = false
+    c.maximized = false
+    c.maximized_horizontal = false
+    c.maximized_vertical = false
+    c.sticky = false
+    c.ontop = false
+end
+
 function cmd.client.move_to_workspace(index, follow)
     ws.with(index, false, function (t)
         if client.focus then
