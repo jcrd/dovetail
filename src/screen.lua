@@ -103,6 +103,9 @@ local function stack_indicator(s, c)
     client.connect_signal('focus', function ()
         gears.timer.delayed_call(update)
     end)
+    client.connect_signal('unfocus', function ()
+        gears.timer.delayed_call(update)
+    end)
     return w
 end
 
