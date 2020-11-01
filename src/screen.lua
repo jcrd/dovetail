@@ -88,6 +88,7 @@ local function stack_indicator(s, c)
     local w = wibox.widget {
         markup = string.format('<b><big>%s</big></b>',
             gears.string.xml_escape(c)),
+        visible = false,
         widget = wibox.widget.textbox,
     }
     local function update()
