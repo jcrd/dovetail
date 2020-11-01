@@ -66,7 +66,6 @@ local function new_workspace_indicator(s)
         },
         {
             markup = '<b><big>+</big></b>',
-            visible = not ws.emptyp(),
             widget = wibox.widget.textbox,
         },
         layout = wibox.layout.fixed.horizontal,
