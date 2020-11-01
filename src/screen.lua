@@ -84,6 +84,27 @@ local function new_workspace_indicator(s)
     return w
 end
 
+local function stack_indicator(s, c)
+    local w = wibox.widget {
+        markup = string.format('<b><big>%s</big></b>',
+            gears.string.xml_escape(c)),
+        widget = wibox.widget.textbox,
+    }
+    local function update()
+        if not client.focus or client.focus.floating then
+            w.visible = false
+            return
+        end
+        local cls = client.focus.screen.tiled_clients
+        local m = awful.client.getmaster()
+        w.visible = #cls > 2 and client.focus ~= m
+    end
+    client.connect_signal('focus', function ()
+        gears.timer.delayed_call(update)
+    end)
+    return w
+end
+
 screen.connect_signal('request::desktop_decoration', function (s)
     -- Workaround for: https://github.com/awesomeWM/awesome/issues/2780
     -- With three tags, select in this order:
@@ -134,6 +155,7 @@ screen.connect_signal('request::desktop_decoration', function (s)
 
     s.dovetail_clientlist = {
         {
+            stack_indicator(s, '< '),
             awful.widget.tasklist {
                 screen = s,
                 filter = awful.widget.tasklist.filter.focused,
@@ -156,6 +178,7 @@ screen.connect_signal('request::desktop_decoration', function (s)
                     widget = wibox.container.background,
                 },
             },
+            stack_indicator(s, ' >'),
             launch.widget.launchbar {
                 screen = s,
             },
