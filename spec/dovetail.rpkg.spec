@@ -18,7 +18,7 @@ Requires: bash
 Requires: pulseaudio
 Requires: rofi
 Requires: sessiond
-Requires: wm-launch
+Requires: wm-launch >= 0.4.0
 
 Recommends: upower
 
