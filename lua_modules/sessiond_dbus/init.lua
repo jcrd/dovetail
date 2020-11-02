@@ -106,12 +106,12 @@ local function new_backlight(path)
     return bl
 end
 
-local function add_backlight(path)
+local function add_backlight(_, path)
     local bl = new_backlight(path)
     backlights[bl.proxy.Name] = bl
 end
 
-local function remove_backlight(path)
+local function remove_backlight(_, path)
     for n, bl in pairs(backlights) do
         if bl.obj_path == path then
             backlights[n] = nil
@@ -122,13 +122,15 @@ end
 local function callback(p, appear)
     if appear then
         for _, path in ipairs(p.Backlights) do
-            add_backlight(path)
+            add_backlight(p, path)
         end
         p:connect_signal(add_backlight, "AddBacklight")
         p:connect_signal(remove_backlight, "RemoveBacklight")
 
         for _, cb in ipairs(callbacks) do
-            p:connect_signal(cb.func, cb.name)
+            p:connect_signal(function (_, ...)
+                cb.func(...)
+            end, cb.name)
         end
         callbacks = {}
     else

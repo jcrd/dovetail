@@ -10,6 +10,7 @@ local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local dpi = require("beautiful.xresources").apply_dpi
 
 local shared = require("awesome-launch.shared")
 
@@ -19,8 +20,8 @@ local widget = {}
 
 widget.color = beautiful.bg_focus
 widget.border_color = beautiful.fg_normal
-widget.width = beautiful.wibar_height or 20
-widget.margins = 2
+widget.width = beautiful.wibar_height or dpi(20)
+widget.margins = dpi(2)
 
 local function props_visible(s, p)
     if p.screen and p.screen ~= s then
@@ -65,15 +66,6 @@ function widget.update_widgets()
 end
 
 function widget.new(cmd, data)
-    local defaults = {
-        color = beautiful.bg_focus,
-        border_color = beautiful.fg_normal,
-        width = 20,
-        margins = 2,
-    }
-
-    gears.table.crush(defaults, widget)
-
     return wibox.widget {
         {
             {
@@ -82,16 +74,16 @@ function widget.new(cmd, data)
                     min_value = 0,
                     max_value = data.timeout,
                     value = data.timeout,
-                    color = defaults.color,
-                    border_color = defaults.border_color,
+                    color = widget.color,
+                    border_color = widget.border_color,
                     widget = wibox.container.radialprogressbar,
                 },
                 id = "id_margin",
-                margins = defaults.margins,
+                margins = widget.margins,
                 layout = wibox.container.margin,
             },
             id = "id_const",
-            width = defaults.width,
+            width = widget.width,
             layout = wibox.container.constraint,
         },
         {
