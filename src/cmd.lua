@@ -43,7 +43,7 @@ cmd.workspace = {}
 function cmd.workspace.view(index)
     ws.with(index, false, function (t)
         if t == selected_tag() then
-            awful.tag.history.restore()
+            ws.restore()
         else
             t:view_only()
         end
@@ -58,15 +58,7 @@ function cmd.workspace.prev(prompt)
     ws.next(-1, prompt)
 end
 
-function cmd.workspace.restore()
-    local v = selected_tag()
-    awful.tag.history.restore()
-    if selected_tag() == v then
-        ws.with(nil, false, function (t)
-            t:view_only()
-        end)
-    end
-end
+cmd.workspace.restore = ws.restore
 
 function cmd.workspace.toggle_panel(args)
     panel.toggle(args.cmd, args)

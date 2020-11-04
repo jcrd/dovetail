@@ -1,4 +1,5 @@
 local awful = require('awful')
+local gtable = require('gears.table')
 
 local dovetail = require('awesome-dovetail')
 local selected_tag = require('dovetail.util').selected_tag
@@ -9,12 +10,39 @@ local menu = require('dovetail.menu')
 
 local ws = {}
 
+local history = {}
+
 tag.connect_signal('request::default_layouts', function ()
     awful.layout.append_default_layouts {
         dovetail.layout.left,
         awful.layout.suit.max,
     }
 end)
+
+screen.connect_signal('tag::history::update', function (s)
+    local t = selected_tag(s)
+    if not t then
+        return
+    end
+    local i = gtable.hasitem(history, t.index)
+    if i then
+        table.remove(history, i)
+    end
+    table.insert(history, t.index)
+end)
+
+function ws.restore()
+    local tag = selected_tag()
+    for index=#history,1,-1 do
+        local i = history[index]
+        if i ~= tag.index then
+            ws.with(i, nil, function (t)
+                t:view_only()
+            end)
+            break
+        end
+    end
+end
 
 function ws.emptyp(tag)
     tag = tag or selected_tag()
