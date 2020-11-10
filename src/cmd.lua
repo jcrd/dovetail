@@ -176,6 +176,7 @@ end
 -- Menu.
 cmd.menu = {}
 cmd.menu.new_workspace = menu.workspace.new
+cmd.menu.run_workspace = menu.workspace.run
 cmd.menu.rename_workspace = menu.workspace.rename
 cmd.menu.run = menu.run
 
