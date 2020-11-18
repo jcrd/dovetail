@@ -44,11 +44,22 @@ local function get_icon(percent)
 end
 
 local function update()
+    local function on_update(time)
+        if battery.on_update then
+            battery.on_update(power, time, batt.Percentage)
+        end
+    end
+
     if batt.TimeToEmpty > 0 then
         local function set()
+            local t = format_sec(batt.TimeToEmpty)
+
             widget.id_icon.markup = format_icon(get_icon(batt.Percentage))
-            widget.id_time.text = format_sec(batt.TimeToEmpty)
+            widget.id_time.text = t
+
+            on_update(t)
         end
+
         if power then
             -- TimeToEmpty is incorrect immediately after unplugging power
             gears.timer {
@@ -63,8 +74,12 @@ local function update()
         end
     else
         power = true
+        local t = format_sec(batt.TimeToFull)
+
         widget.id_icon.markup = format_icon(battery.widget.icons.power)
-        widget.id_time.text = format_sec(batt.TimeToFull)
+        widget.id_time.text = t
+
+        on_update(t)
     end
 end
 

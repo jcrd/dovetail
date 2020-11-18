@@ -40,6 +40,8 @@ options {
     workspace_search_paths = {},
     brightness_step = 10,
     hide_mouse_on_startup = true,
+    battery_low_percent = 10,
+    battery_charged_percent = 95,
 }
 
 notifications {
