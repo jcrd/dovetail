@@ -26,22 +26,37 @@ session.on_backlight_error = function (msg)
     }
 end
 
+local batt_charged = false
+local batt_low = false
+
 battery.on_update = function (power, time, percent)
     if power then
         if percent >= config.options.battery_charged_percent then
+            if batt_charged then
+                return
+            end
             naughty.notification {
                 urgency = 'normal',
                 title = string.format('Full battery (%d%%)', percent),
                 message = 'Battery is charged',
             }
+            batt_charged = true
+        else
+            batt_charged = false
         end
     else
         if percent <= config.options.battery_low_percent then
+            if batt_low then
+                return
+            end
             naughty.notification {
                 urgency = 'critical',
                 title = string.format('Low battery (%d%%)', percent),
                 message = string.format('Time to empty: %s', time),
             }
+            batt_low = true
+        else
+            batt_low = false
         end
     end
 end
