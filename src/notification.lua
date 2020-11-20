@@ -31,6 +31,7 @@ local batt_low = false
 
 battery.on_update = function (power, time, percent)
     if power then
+        batt_low = false
         if percent >= config.options.battery_charged_percent then
             if batt_charged then
                 return
@@ -41,10 +42,9 @@ battery.on_update = function (power, time, percent)
                 message = 'Battery is charged',
             }
             batt_charged = true
-        else
-            batt_charged = false
         end
     else
+        batt_charged = false
         if percent <= config.options.battery_low_percent then
             if batt_low then
                 return
@@ -55,8 +55,6 @@ battery.on_update = function (power, time, percent)
                 message = string.format('Time to empty: %s', time),
             }
             batt_low = true
-        else
-            batt_low = false
         end
     end
 end
