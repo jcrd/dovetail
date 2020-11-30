@@ -41,6 +41,12 @@ screen.connect_signal('arrange', function (s)
             c.border_width = beautiful.border_width
         end
     end
+
+    for _, c in ipairs(s.clients) do
+        if c.floating then
+            c.border_width = beautiful.border_width
+        end
+    end
 end)
 
 screen.connect_signal('tag::history::update', function (s)
