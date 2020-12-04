@@ -89,6 +89,7 @@ function config_env.theme(t)
     end
 
     launch.widget.color = t.bg_normal_alt
+    launch.widget.border_color = t.border_focus
     launch.widget.width = t.wibar_height
 
     local apply_dpi = {
