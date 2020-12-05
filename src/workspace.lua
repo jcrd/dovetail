@@ -77,7 +77,11 @@ end
 function ws.emptyp(tag)
     tag = tag or selected_tag()
     local n = config.options.new_workspace_name
-    return tag and tag.name == n and #tag:clients() == 0
+    if not (tag and tag.name == n) then
+        return false
+    end
+    local c = tag:clients()
+    return #c == 0 or (#c == 1 and c[1].launch_panel)
 end
 
 function ws.with(index, prompt, func, name)

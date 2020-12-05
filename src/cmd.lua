@@ -14,6 +14,8 @@ local util = require('dovetail.util')
 local selected_tag = util.selected_tag
 local ws = require('dovetail.workspace')
 
+require('dovetail.panel')
+
 local cmd = {}
 
 -- Spawning.
