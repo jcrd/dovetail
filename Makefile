@@ -32,6 +32,10 @@ $(BUILDDIR)/init.lua: init.lua.in
 		-e "s|@user_config|'$(USER_CONFIG)'|" \
 		$< > $@
 
+$(BUILDDIR)/share: clean-share $(BUILDDIR)/init.lua $(LUA_MODULES)
+	mkdir -p $@
+	./scripts/make_share.sh $@ $(LUA_MODULES)
+
 tree:
 	./scripts/make_tree.sh $(LUA_TREE)
 
@@ -62,6 +66,9 @@ uninstall:
 clean:
 	rm -fr $(BUILDDIR)
 
+clean-share:
+	rm -fr $(BUILDDIR)/share
+
 clean-tree:
 	rm -fr $(LUA_TREE)
 
@@ -70,4 +77,5 @@ clean-modules:
 
 clean-all: clean clean-tree clean-modules
 
-.PHONY: all install uninstall clean clean-tree clean-modules clean-all
+.PHONY: all install uninstall \
+	clean clean-share clean-tree clean-modules clean-all
