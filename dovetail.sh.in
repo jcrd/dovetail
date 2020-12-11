@@ -1,7 +1,7 @@
 #!/bin/sh
 
 readonly VERSION=@VERSION
-readonly LUA_SHARE=@LUA_SHARE
+readonly LUA_SHARE="${DOVETAIL_LUA_SHARE:-@LUA_SHARE}"
 
 usage() {
     echo 'usage: dovetail [options]
