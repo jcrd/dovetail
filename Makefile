@@ -33,7 +33,7 @@ builddir/init.lua: init.lua.in
 tree:
 	./scripts/make_tree.sh $(LUA_TREE)
 
-lua_modules: clean-modules
+$(LUA_MODULES): clean-modules
 	mkdir -p $(LUA_MODULES)
 	cp -r $(LUA_TREE_SHARE)/* $(LUA_MODULES)
 
