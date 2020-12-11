@@ -15,17 +15,19 @@ LUA_SHARE := $(SHAREPREFIX)/dovetail
 DEFAULT_CONFIG ?= /etc/xdg/dovetail/config.lua
 USER_CONFIG ?= dovetail/config.lua
 
-all: builddir/dovetail.sh builddir/init.lua
+BUILDDIR ?= builddir
 
-builddir/dovetail.sh: dovetail.sh.in
-	mkdir -p builddir
+all: $(BUILDDIR)/dovetail.sh $(BUILDDIR)/init.lua
+
+$(BUILDDIR)/dovetail.sh: dovetail.sh.in
+	mkdir -p $(BUILDDIR)
 	sed -e "s|@VERSION|$(VERSION)|" \
 		-e "s|@LUA_SHARE|$(LUA_SHARE)|" \
 		$< > $@
 	chmod +x $@
 
-builddir/init.lua: init.lua.in
-	mkdir -p builddir
+$(BUILDDIR)/init.lua: init.lua.in
+	mkdir -p $(BUILDDIR)
 	sed -e "s|@default_config|'$(DEFAULT_CONFIG)'|" \
 		-e "s|@user_config|'$(USER_CONFIG)'|" \
 		$< > $@
@@ -39,9 +41,9 @@ $(LUA_MODULES): clean-modules
 
 install:
 	mkdir -p $(DESTDIR)$(BINPREFIX)
-	cp -p builddir/dovetail.sh $(DESTDIR)$(BINPREFIX)/dovetail
+	cp -p $(BUILDDIR)/dovetail.sh $(DESTDIR)$(BINPREFIX)/dovetail
 	mkdir -p $(DESTDIR)$(LUA_SHARE)
-	cp -p builddir/init.lua $(DESTDIR)$(LUA_SHARE)
+	cp -p $(BUILDDIR)/init.lua $(DESTDIR)$(LUA_SHARE)
 	cp -pr src $(DESTDIR)$(LUA_SHARE)/dovetail
 	cp -pr $(LUA_MODULES)/* $(DESTDIR)$(LUA_SHARE)
 	mkdir -p $(DESTDIR)$(LIBPREFIX)/systemd/user
@@ -58,7 +60,7 @@ uninstall:
 	rm -fr $(DESTDIR)/etc/xdg/dovetail
 
 clean:
-	rm -fr builddir
+	rm -fr $(BUILDDIR)
 
 clean-tree:
 	rm -fr $(LUA_TREE)
