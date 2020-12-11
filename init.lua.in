@@ -1,7 +1,4 @@
-local default_config
-local user_config
-
-require('dovetail.config_load')(default_config, user_config)
+require('dovetail.config_load')(@default_config, @user_config)
 
 require('dovetail.client')
 require('dovetail.notification')

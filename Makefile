@@ -19,15 +19,15 @@ all: builddir/dovetail.sh builddir/init.lua
 
 builddir/dovetail.sh: dovetail.sh.in
 	mkdir -p builddir
-	sed -e "s|VERSION=|VERSION=$(VERSION)|" \
-		-e "s|LUA_SHARE=|LUA_SHARE=$(LUA_SHARE)|" \
+	sed -e "s|@VERSION|$(VERSION)|" \
+		-e "s|@LUA_SHARE|$(LUA_SHARE)|" \
 		$< > $@
 	chmod +x $@
 
 builddir/init.lua: init.lua.in
 	mkdir -p builddir
-	sed -e "s|local default_config|local default_config = '$(DEFAULT_CONFIG)'|" \
-		-e "s|local user_config|local user_config = '$(USER_CONFIG)'|" \
+	sed -e "s|@default_config|'$(DEFAULT_CONFIG)'|" \
+		-e "s|@user_config|'$(USER_CONFIG)'|" \
 		$< > $@
 
 tree:
