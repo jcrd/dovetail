@@ -40,6 +40,7 @@ default.options = {
     default_workspace_name = 'main',
     new_workspace_name = 'scratch',
     workspace_search_paths = {},
+    backlight_name = 'default',
     brightness_step = 10,
     hide_mouse_on_startup = true,
     battery_low_percent = 10,

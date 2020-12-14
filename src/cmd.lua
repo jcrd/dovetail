@@ -206,12 +206,19 @@ end
 cmd.notification = {}
 cmd.notification.destroy_all = naughty.destroy_all_notifications
 
+local function backlight(func)
+    return function ()
+        local bl = session.backlights[config.options.backlight_name]
+        bl[func](config.options.brightness_step)
+    end
+end
+
 -- Session.
 cmd.session = {}
 cmd.session.lock = session.lock
 cmd.session.brightness = {}
-cmd.session.brightness.inc = session.backlights.default.inc_brightness
-cmd.session.brightness.dec = session.backlights.default.dec_brightness
+cmd.session.brightness.inc = backlight('inc_brightness')
+cmd.session.brightness.dec = backlight('dec_brightness')
 
 -- Audio.
 cmd.audio = {}

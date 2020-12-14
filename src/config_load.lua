@@ -128,7 +128,6 @@ function config_env.options(t)
     config.options = t
 
     menu.workspace.search_paths = t.workspace_search_paths
-    session.backlights.default.brightness_step = t.brightness_step
 
     if t.hide_mouse_on_startup then
         awesome.connect_signal('startup', cmd.mouse.hide)
