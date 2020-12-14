@@ -71,14 +71,14 @@ local function new_workspace_indicator(s)
         layout = wibox.layout.fixed.horizontal,
     }
     local function update()
-        w.visible = not ws.emptyp()
-        if w.visible then
-            w.id_index.markup = index_markup()
-        end
+        gears.timer.delayed_call(function ()
+            w.visible = not ws.emptyp()
+            if w.visible then
+                w.id_index.markup = index_markup()
+            end
+        end)
     end
-    s:connect_signal('tag::history::update', function ()
-        gears.timer.delayed_call(update)
-    end)
+    s:connect_signal('tag::history::update', update)
     tag.connect_signal('tagged', update)
     tag.connect_signal('untagged', update)
     return w
