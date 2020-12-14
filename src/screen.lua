@@ -96,7 +96,12 @@ local function stack_indicator(s, c)
             w.visible = false
             return
         end
+        local layout = awful.layout.get(s).name
         local cls = client.focus.screen.tiled_clients
+        if layout == 'max' and #cls > 1 then
+            w.visible = true
+            return
+        end
         local m = awful.client.getmaster()
         w.visible = #cls > 2 and client.focus ~= m
     end
@@ -106,6 +111,7 @@ local function stack_indicator(s, c)
     client.connect_signal('unfocus', function ()
         gears.timer.delayed_call(update)
     end)
+    tag.connect_signal('property::layout', update)
     return w
 end
 
