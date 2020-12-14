@@ -27,6 +27,7 @@ function util.clientinfo(c)
         wm_launch_id = c.wm_launch_id,
         single_instance_id = c.single_instance_id,
         cmdline = c.cmdline,
+        launch_panel = c.launch_panel or false,
     }
     local text = ''
     for k, v in pairs(props) do
