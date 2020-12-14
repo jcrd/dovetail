@@ -11,7 +11,7 @@ local menu = require('dovetail.menu')
 
 local ws = {}
 
-local history = {}
+local history = {2, 1}
 
 tag.connect_signal('request::default_layouts', function ()
     awful.layout.append_default_layouts {
