@@ -208,8 +208,13 @@ cmd.notification.destroy_all = naughty.destroy_all_notifications
 
 local function backlight(func)
     return function ()
-        local bl = session.backlights[config.options.backlight_name]
-        bl[func](config.options.brightness_step)
+        local c = config.options[func..'_cmd']
+        if c then
+            awful.spawn(string.format(c, config.options.brightness_step))
+        else
+            local bl = session.backlights[config.options.backlight_name]
+            bl[func](config.options.brightness_step)
+        end
     end
 end
 
