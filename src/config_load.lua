@@ -110,7 +110,7 @@ function config_env.theme(t)
     if t.audio_icons then
         require('audio').widget.icons = t.audio_icons
     end
-    if t.audio_icons then
+    if t.battery_icons then
         require('battery').widget.icons = t.battery_icons
     end
 
