@@ -21,6 +21,16 @@ uuid.seed()
 
 local config_env = {cmd = cmd}
 
+local data = default
+
+setmetatable(config_env, {__index = function (_, k)
+    return function (t)
+        data[k] = gears.table.crush(data[k] or {}, t)
+    end
+end})
+
+local handler = {}
+
 local function load_file(file, env)
     if not gears.filesystem.file_readable(file) then
         log.warn('config: %s is inaccessible', file)
@@ -51,46 +61,29 @@ local function get_config_home()
     return os.getenv('XDG_CONFIG_HOME') or os.getenv('HOME')..'/.config'
 end
 
-function config_env.keys(t)
+function handler.keys(t)
     awful.keyboard.append_global_keybindings(ez.keytable(t))
 end
 
-function config_env.client_keys(t)
+function handler.client_keys(t)
     client.connect_signal('request::default_keybindings', function ()
         awful.keyboard.append_client_keybindings(ez.keytable(t))
     end)
 end
 
-function config_env.buttons(t)
+function handler.buttons(t)
     client.connect_signal('request::default_mousebindings', function ()
         awful.mouse.append_client_mousebindings(ez.btntable(t))
     end)
 end
 
-function config_env.theme(t)
-    if have_theme then
-        return
-    end
-
-    t = t or {}
-    setmetatable(t, {__index = default.theme})
-
+function handler.theme(t)
     t.font_size = dpi(t.font_size)
     t.bar_growth = dpi(t.bar_growth)
     t.info_margins = dpi(t.info_margins)
     t.font = string.format('%s %dpx', t.font_name, t.font_size)
     t.wibar_height = t.font_size + t.bar_growth
     t.master_width_factor = t.master_width
-
-    if t.desktop_wallpaper then
-        screen.connect_signal('request::wallpaper', function (s)
-            gears.wallpaper.set(t.desktop_wallpaper)
-        end)
-    end
-
-    launch.widget.color = t.bg_normal_alt
-    launch.widget.border_color = t.border_focus
-    launch.widget.width = t.wibar_height
 
     local apply_dpi = {
         'useless_gap',
@@ -107,6 +100,17 @@ function config_env.theme(t)
 
     t.tasklist_align = 'center'
 
+    if not beautiful.init(t) then
+        log.error('config: error loading theme')
+        if t ~= default.theme then
+            handler.theme(default.theme)
+        end
+    end
+
+    launch.widget.color = t.bg_normal_alt
+    launch.widget.border_color = t.border_focus
+    launch.widget.width = t.wibar_height
+
     if t.audio_icons then
         require('audio').widget.icons = t.audio_icons
     end
@@ -114,17 +118,14 @@ function config_env.theme(t)
         require('battery').widget.icons = t.battery_icons
     end
 
-    if beautiful.init(t) then
-        have_theme = true
-    else
-        log.error('config: error loading theme')
+    if t.desktop_wallpaper then
+        screen.connect_signal('request::wallpaper', function (s)
+            gears.wallpaper.set(t.desktop_wallpaper)
+        end)
     end
 end
 
-function config_env.options(t)
-    t = t or {}
-    setmetatable(t, {__index = default.options})
-
+function handler.options(t)
     config.options = t
 
     menu.workspace.search_paths = t.workspace_search_paths
@@ -134,7 +135,7 @@ function config_env.options(t)
     end
 end
 
-function config_env.workspace_clients(t)
+function handler.workspace_clients(t)
     t = gears.table.map(function (v)
         v.systemd = true
         return {v.cmd, v}
@@ -142,7 +143,7 @@ function config_env.workspace_clients(t)
     workspace.clients = t
 end
 
-function config_env.notifications(t)
+function handler.notifications(t)
     ruled.notification.connect_signal('request::rules', function ()
         ruled.notification.append_rule {
             rule = {},
@@ -155,7 +156,7 @@ function config_env.notifications(t)
     end)
 end
 
-function config_env.rules(t)
+function handler.rules(t)
     local function inhibitor_who(rule)
         if rule.who then
             return rule.who
@@ -209,5 +210,9 @@ return function (default_config, user_config)
         load_file(default_config, config_env)
     end
 
-    config_env.theme()
+    for k, t in pairs(data) do
+        if handler[k] then
+            handler[k](t)
+        end
+    end
 end
