@@ -53,7 +53,7 @@ install:
 	mkdir -p $(DESTDIR)$(LIBPREFIX)/systemd/user
 	cp -p systemd/dovetail.service $(DESTDIR)$(LIBPREFIX)/systemd/user
 	mkdir -p $(DESTDIR)/etc/xdg/dovetail
-	cp -p config.def.lua $(DESTDIR)/etc/xdg/dovetail/config.lua
+	cp -p config.def.lua $(DESTDIR)$(DEFAULT_CONFIG)
 	mkdir -p $(DESTDIR)$(SHAREPREFIX)/xsessions
 	cp -p dovetail.desktop $(DESTDIR)$(SHAREPREFIX)/xsessions
 
