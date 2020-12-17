@@ -20,6 +20,7 @@ local menu = require('dovetail.menu')
 uuid.seed()
 
 local config_env = {cmd = cmd}
+local config_dir
 
 local data = default
 
@@ -59,6 +60,21 @@ end
 
 local function get_config_home()
     return os.getenv('XDG_CONFIG_HOME') or os.getenv('HOME')..'/.config'
+end
+
+local function path_abs(p)
+    return string.sub(p, 1, 1) == '/'
+end
+
+local function path_combine(p1, p2)
+    return string.format('%s/%s', p1, p2)
+end
+
+function config_env.include(path)
+    if not path_abs(path) then
+        path = path_combine(config_dir, path)
+    end
+    load_file(path, config_env)
 end
 
 function handler.keys(t)
@@ -203,8 +219,10 @@ function handler.rules(t)
     end)
 end
 
-return function (default_config, user_config)
-    user_config = string.format('%s/%s', get_config_home(), user_config)
+return function (default_config, dir, file)
+    config_dir = path_combine(get_config_home(), dir)
+
+    local user_config = path_combine(config_dir, file)
 
     if not load_file(user_config, config_env) then
         load_file(default_config, config_env)

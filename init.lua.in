@@ -1,4 +1,7 @@
-require('dovetail.config_load')(@default_config, @user_config)
+require('dovetail.config_load')(
+    @default_config,
+    @config_dir,
+    @config_file)
 
 require('dovetail.client')
 require('dovetail.notification')

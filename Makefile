@@ -12,8 +12,9 @@ LUA_VERSION := $(shell luarocks config --lua-ver)
 LUA_TREE_SHARE := $(LUA_TREE)/share/lua/$(LUA_VERSION)
 LUA_SHARE := $(SHAREPREFIX)/dovetail
 
-DEFAULT_CONFIG ?= /etc/xdg/dovetail/config.lua
-USER_CONFIG ?= dovetail/config.lua
+CONFIG_DIR ?= dovetail
+CONFIG_FILE ?= config.lua
+DEFAULT_CONFIG := /etc/xdg/$(CONFIG_DIR)/$(CONFIG_FILE)
 
 BUILDDIR ?= builddir
 
@@ -29,7 +30,8 @@ $(BUILDDIR)/dovetail.sh: dovetail.sh.in
 $(BUILDDIR)/init.lua: init.lua.in
 	mkdir -p $(BUILDDIR)
 	sed -e "s|@default_config|'$(DEFAULT_CONFIG)'|" \
-		-e "s|@user_config|'$(USER_CONFIG)'|" \
+		-e "s|@config_dir|'$(CONFIG_DIR)'|" \
+		-e "s|@config_file|'$(CONFIG_FILE)'|" \
 		$< > $@
 
 $(BUILDDIR)/share: clean-share $(BUILDDIR)/init.lua $(LUA_MODULES)
