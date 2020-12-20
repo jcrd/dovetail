@@ -7,6 +7,9 @@ client.connect_signal('property::floating', function (c)
     if c.floating then
         c.skip_taskbar = true
         awful.placement.centered(c)
+        if not c.active then
+            c.border_color = beautiful.border_normal_floating
+        end
     else
         c.skip_taskbar = false
     end
@@ -28,5 +31,9 @@ client.connect_signal('focus', function (c)
 end)
 
 client.connect_signal('unfocus', function (c)
-    c.border_color = beautiful.border_normal
+    if c.floating then
+        c.border_color = beautiful.border_normal_floating
+    else
+        c.border_color = beautiful.border_normal
+    end
 end)

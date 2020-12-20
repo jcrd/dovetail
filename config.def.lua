@@ -23,6 +23,7 @@ theme {
     bg_normal = colors.bg,
     bg_normal_alt = colors.bg_alt,
     border_normal = colors.bg,
+    border_normal_floating = colors.bg_alt,
     notification_border_color = colors.fg,
 
     fg_focus = colors.bg,
