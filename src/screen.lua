@@ -181,7 +181,6 @@ screen.connect_signal('request::desktop_decoration', function (s)
                             right = beautiful.bar_growth,
                             widget = wibox.container.margin,
                         },
-                        fill_space = true,
                         layout = wibox.layout.fixed.horizontal,
                     },
                     id = 'background_role',
@@ -192,7 +191,6 @@ screen.connect_signal('request::desktop_decoration', function (s)
             launch.widget.launchbar {
                 screen = s,
             },
-            fill_space = true,
             layout = wibox.layout.fixed.horizontal,
         },
         layout = wibox.container.constraint,
