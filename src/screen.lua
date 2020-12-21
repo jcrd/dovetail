@@ -173,8 +173,12 @@ screen.connect_signal('request::desktop_decoration', function (s)
                     {
                         {
                             {
-                                id = 'text_role',
-                                widget = wibox.widget.textbox,
+                                {
+                                    id = 'text_role',
+                                    widget = wibox.widget.textbox,
+                                },
+                                layout = wibox.container.constraint,
+                                width = s.geometry.width / 3,
                             },
                             id = 'text_margin_role',
                             left = beautiful.bar_growth,
