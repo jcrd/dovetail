@@ -153,7 +153,9 @@ end
 
 function handler.workspace_clients(t)
     t = gears.table.map(function (v)
-        v.systemd = true
+        if v.systemd ~= false then
+            v.systemd = true
+        end
         return {v.cmd, v}
     end, t)
     workspace.clients = t
