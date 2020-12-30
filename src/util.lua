@@ -28,6 +28,9 @@ function util.clientinfo(c)
         single_instance_id = c.single_instance_id,
         cmdline = c.cmdline,
         launch_panel = c.launch_panel or false,
+        maximized = c.maximized,
+        maximized_vertical = c.maximized_vertical,
+        maximized_horizontal = c.maximized_horizontal,
     }
     local text = ''
     for k, v in pairs(props) do
