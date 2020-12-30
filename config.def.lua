@@ -132,7 +132,7 @@ client_keys {
 buttons {
     ['1'] = cmd.mouse.focus,
     ['M-1'] = cmd.mouse.move,
-    ['M-1'] = cmd.mouse.resize,
+    ['M-3'] = cmd.mouse.resize,
 }
 
 rules {
