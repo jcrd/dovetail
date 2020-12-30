@@ -42,6 +42,7 @@ options {
     backlight_name = 'default',
     brightness_step = 10,
     hide_mouse_on_startup = true,
+    allow_maximized_clients = false,
     battery_low_percent = 10,
     battery_charged_percent = 95,
 }

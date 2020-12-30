@@ -3,6 +3,8 @@ local beautiful = require('beautiful')
 
 require('awful.autofocus')
 
+local config = require('dovetail.config')
+
 client.connect_signal('property::floating', function (c)
     if c.floating then
         c.skip_taskbar = true
@@ -37,3 +39,19 @@ client.connect_signal('unfocus', function (c)
         c.border_color = beautiful.border_normal
     end
 end)
+
+if not config.options.allow_maximized_clients then
+    local props = {
+        'maximized',
+        'maximized_vertical',
+        'maximized_horizontal',
+    }
+
+    for _, prop in ipairs(props) do
+        client.connect_signal('property::'..prop, function (c)
+            if c[prop] then
+                c[prop] = false
+            end
+        end)
+    end
+end

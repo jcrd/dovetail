@@ -46,6 +46,7 @@ default.options = {
     inc_brightness_cmd = nil,
     dec_brightness_cmd = nil,
     hide_mouse_on_startup = true,
+    allow_maximized_clients = false,
     battery_low_percent = 10,
     battery_charged_percent = 95,
     enable_battery_widget = os.getenv('CHASSIS') == 'laptop',
