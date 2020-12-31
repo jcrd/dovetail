@@ -43,7 +43,9 @@ local function handle_args(tag, args)
     end
 
     if args.replace and not tag.volatile then
-        for _, c in ipairs(tag:clients()) do c:kill() end
+        for _, c in ipairs(tag:clients()) do
+            c:kill()
+        end
     end
 
     if args.clients then
@@ -189,7 +191,7 @@ local function parse_client(s)
     return c
 end
 
-function methods.Workspace(params, i)
+function methods.NewWorkspace(params, i)
     local args = {
         clients = {},
         callback = function (t)
@@ -232,7 +234,7 @@ local function on_bus_acquired(conn, _)
         name = 'com.github.jcrd.wm_launch.WindowManager',
         methods = {
             method {
-                name = 'Workspace',
+                name = 'NewWorkspace',
                 in_args = {
                     arg('name', 's'),
                     arg('pwd', 's'),
