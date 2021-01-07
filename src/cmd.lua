@@ -11,6 +11,7 @@ local audio = require('dovetail.widgets.audio')
 local config = require('dovetail.config')
 local menu = require('dovetail.menu')
 local util = require('dovetail.util')
+local screenshot = require('dovetail.screenshot')
 local selected_tag = util.selected_tag
 local ws = require('dovetail.workspace')
 
@@ -229,6 +230,11 @@ cmd.session.brightness.dec = backlight('dec_brightness')
 cmd.audio = {}
 cmd.audio.adjust = audio.adjust
 cmd.audio.toggle = audio.toggle
+
+-- Screenshot.
+cmd.screenshot = {}
+cmd.screenshot.take = screenshot.take
+cmd.screenshot.take_region = function () screenshot.take(true) end
 
 -- Window manager.
 cmd.wm = {}

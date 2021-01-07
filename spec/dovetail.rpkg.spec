@@ -20,6 +20,7 @@ Requires: rofi
 Requires: sessiond
 Requires: wm-launch >= 0.5.0
 
+Recommends: ImageMagick
 Recommends: upower
 
 %global debug_package %{nil}

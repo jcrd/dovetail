@@ -108,6 +108,9 @@ keys {
     ['XF86AudioRaiseVolume'] = {cmd.audio.adjust, 2},
     ['XF86AudioMute'] = cmd.audio.toggle,
 
+    -- Screenshot.
+    ['Print'] = cmd.screenshot.take,
+
     -- Window manager.
     ['M-C-r'] = cmd.wm.restart,
     ['M-C-q'] = cmd.wm.quit,
