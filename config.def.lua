@@ -70,12 +70,20 @@ local clients = {
 
 workspace_clients(clients)
 
+local workspaces = {
+    edit = {
+        name = 'edit',
+        clients = { 'kitty -e nvim' },
+    },
+}
+
 keys {
     -- Menu.
     ['M-p'] = cmd.menu.run,
     ['M-S-p'] = cmd.menu.run_workspace,
     ['M-w'] = cmd.menu.new_workspace,
     ['M-r'] = cmd.menu.rename_workspace,
+    ['M-e'] = {cmd.workspace.new, workspaces.edit},
 
     -- Launch clients.
     ['M-Return'] = {cmd.launch, clients.terminal},

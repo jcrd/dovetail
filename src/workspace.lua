@@ -122,4 +122,11 @@ function ws.next(i, prompt, func)
     end)
 end
 
+function ws.new(args)
+    args.callback = function (t)
+        t:view_only()
+    end
+    workspace.new(args.name or config.options.new_workspace_name, args)
+end
+
 return ws

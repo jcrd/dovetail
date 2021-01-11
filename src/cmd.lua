@@ -53,6 +53,10 @@ function cmd.workspace.view(index)
     end)
 end
 
+function cmd.workspace.new(args)
+    ws.new(args)
+end
+
 function cmd.workspace.next(prompt)
     ws.next(1, prompt)
 end
