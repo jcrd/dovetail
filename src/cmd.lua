@@ -37,7 +37,7 @@ function cmd.launch(args)
 end
 
 function cmd.relaunch(args)
-    launch.spawn(args.cmd, args)
+    launch.spawn.here().spawn(args.cmd, args)
 end
 
 -- Workspaces.
