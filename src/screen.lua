@@ -8,6 +8,7 @@ local session = require('sessiond_dbus')
 
 local audio = require('dovetail.widgets.audio')
 local config = require('dovetail.config')
+local util = require('dovetail.util')
 local ws = require('dovetail.workspace')
 
 local clock_widget = wibox.widget.textclock(beautiful.clock_format)
@@ -111,7 +112,35 @@ local function stack_indicator(s, c)
     client.connect_signal('unfocus', function ()
         gears.timer.delayed_call(update)
     end)
+    client.connect_signal('property::minimized', update)
     tag.connect_signal('property::layout', update)
+    return w
+end
+
+local function minimized_indicator(s, c)
+    local w = wibox.widget {
+        markup = string.format('<b><big>%s</big></b>',
+            gears.string.xml_escape(c)),
+        visible = false,
+        widget = wibox.widget.textbox,
+    }
+    local function min_clients()
+        for _, c in ipairs(s.hidden_clients) do
+            if c.minimized then
+                return true
+            end
+        end
+        return false
+    end
+    local function update(_, t)
+        if not t or t == util.selected_tag(s) then
+            w.visible = min_clients()
+        end
+    end
+    client.connect_signal('property::minimized', update)
+    client.connect_signal('tagged', update)
+    client.connect_signal('untagged', update)
+    screen.connect_signal('property::selected_tag', update)
     return w
 end
 
@@ -195,6 +224,12 @@ screen.connect_signal('request::desktop_decoration', function (s)
                 screen = s,
             },
             stack_indicator(s, ' >'),
+            minimized_indicator(s, ' [ '),
+            awful.widget.tasklist {
+                screen = s,
+                filter = awful.widget.tasklist.filter.minimizedcurrenttags,
+            },
+            minimized_indicator(s, ' ]'),
             layout = wibox.layout.fixed.horizontal,
         },
         layout = wibox.container.constraint,

@@ -112,6 +112,21 @@ function cmd.client.set_master(c)
     end
 end
 
+function cmd.client.minimize(c)
+    c.minimized = true
+end
+
+function cmd.client.unminimize()
+    local s = awful.screen.focused()
+    if #s.hidden_clients == 0 then
+        return
+    end
+    local c = s.hidden_clients[1]
+    c.minimized = false
+    c:emit_signal('request::activate', 'dovetail.cmd.client.unminimize',
+        {raise = true})
+end
+
 function cmd.client.toggle_max()
     awful.layout.inc(1)
 end
