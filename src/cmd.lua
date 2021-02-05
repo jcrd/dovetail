@@ -116,6 +116,22 @@ function cmd.client.minimize(c)
     c.minimized = true
 end
 
+function cmd.client.replace(c)
+    local tag = c.first_tag
+    local function tagged(cl, t)
+        if util.client_is_valid(c) and t == tag then
+            c.minimized = true
+            cl:connect_signal('untagged', function (_, t)
+                if util.client_is_valid(c) and t == tag then
+                    c.minimized = false
+                end
+            end)
+            client.disconnect_signal('tagged', tagged)
+        end
+    end
+    client.connect_signal('tagged', tagged)
+end
+
 function cmd.client.unminimize()
     local s = awful.screen.focused()
     if #s.hidden_clients == 0 then

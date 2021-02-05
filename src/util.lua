@@ -3,6 +3,10 @@ local naughty = require('naughty')
 
 local util = {}
 
+function util.client_is_valid(c)
+    return pcall(function () return c.valid end) and c.valid
+end
+
 function util.selected_tag(s)
     s = s or awful.screen.focused()
     return s.selected_tag

@@ -139,6 +139,7 @@ client_keys {
     ['M-space'] = cmd.client.toggle_floating,
     ['M-g'] = cmd.client.toggle_fullscreen,
     ['M-n'] = cmd.client.normalize,
+    ['M-z'] = cmd.client.replace,
     ['M-x'] = cmd.client.minimize,
     ['M-S-x'] = cmd.client.unminimize,
 }
