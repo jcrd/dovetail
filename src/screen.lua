@@ -191,10 +191,10 @@ screen.connect_signal('request::desktop_decoration', function (s)
                     widget = wibox.container.background,
                 },
             },
-            stack_indicator(s, ' >'),
             launch.widget.launchbar {
                 screen = s,
             },
+            stack_indicator(s, ' >'),
             layout = wibox.layout.fixed.horizontal,
         },
         layout = wibox.container.constraint,
