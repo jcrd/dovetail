@@ -34,6 +34,26 @@ screenshot.on_command_error = function (msg)
     }
 end
 
+if config.options.fullscreen_audio_notifications then
+    local audio = require('dovetail.widgets.audio')
+    local audio_notif
+
+    audio.on_update = function (m, v)
+        if not (client.focus and client.focus.fullscreen) then
+            return
+        end
+        local msg = string.format('%s %d%%', audio.widget.icons[m], v)
+        if not audio_notif or audio_notif.is_expired then
+            audio_notif = naughty.notification {
+                message = msg,
+                timeout = 1,
+            }
+        else
+            audio_notif.message = msg
+        end
+    end
+end
+
 if config.options.enable_battery_widget then
     local battery = require('dovetail.widgets.battery')
 

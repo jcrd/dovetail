@@ -49,6 +49,7 @@ default.options = {
     allow_maximized_clients = false,
     battery_low_percent = 10,
     battery_charged_percent = 95,
+    fullscreen_audio_notifications = true,
     enable_battery_widget = os.getenv('CHASSIS') == 'laptop',
 }
 

@@ -17,10 +17,14 @@ local function get_volume()
 end
 
 local function update_volume(v)
+    v = v or get_volume()
+    if audio.on_update then
+        audio.on_update(sink:is_muted(), v)
+    end
     if not widget then
         return
     end
-    widget.id_progress.value = v or get_volume()
+    widget.id_progress.value = v
 end
 
 local function format_icon(i)
@@ -28,10 +32,14 @@ local function format_icon(i)
 end
 
 local function update_muted(m)
+    m = m or sink:is_muted()
+    if audio.on_update then
+        audio.on_update(m, get_volume())
+    end
     if not widget then
         return
     end
-    widget.id_icon.markup = format_icon(audio.widget.icons[m or sink:is_muted()])
+    widget.id_icon.markup = format_icon(audio.widget.icons[m])
 end
 
 local function update()
