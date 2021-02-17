@@ -125,8 +125,9 @@ local function minimized_indicator(s, c)
         widget = wibox.widget.textbox,
     }
     local function min_clients()
+        local t = util.selected_tag(s)
         for _, c in ipairs(s.hidden_clients) do
-            if c.minimized then
+            if c.first_tag == t and c.minimized then
                 return true
             end
         end
@@ -140,7 +141,7 @@ local function minimized_indicator(s, c)
     client.connect_signal('property::minimized', update)
     client.connect_signal('tagged', update)
     client.connect_signal('untagged', update)
-    screen.connect_signal('property::selected_tag', update)
+    screen.connect_signal('tag::history::update', update)
     return w
 end
 
