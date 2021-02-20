@@ -106,6 +106,7 @@ keys {
     ['M-f'] = cmd.client.focus.other,
     ['M-S-f'] = cmd.client.focus.other_layer,
     ['M-o'] = cmd.client.toggle_max,
+    ['M-S-x'] = cmd.client.unminimize,
 
     -- Session.
     ['M-BackSpace'] = cmd.session.lock,
@@ -131,7 +132,6 @@ keys {
     -- Misc.
     ['M-m'] = cmd.mouse.hide,
     ['M-d'] = cmd.notification.destroy_all,
-
 }
 
 client_keys {
@@ -142,7 +142,6 @@ client_keys {
     ['M-n'] = cmd.client.normalize,
     ['M-z'] = cmd.client.replace,
     ['M-x'] = cmd.client.minimize,
-    ['M-S-x'] = cmd.client.unminimize,
 }
 
 buttons {
