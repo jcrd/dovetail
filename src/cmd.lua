@@ -17,6 +17,8 @@ local ws = require('dovetail.workspace')
 
 require('dovetail.panel')
 
+local minimized_clients = {}
+
 local cmd = {}
 
 -- Spawning.
@@ -114,16 +116,17 @@ end
 
 function cmd.client.minimize(c)
     c.minimized = true
+    table.insert(minimized_clients, c)
 end
 
 function cmd.client.replace(c)
     local tag = c.first_tag
     local function tagged(cl, t)
         if util.client_is_valid(c) and t == tag then
-            c.minimized = true
+            cmd.client.minimize(c)
             cl:connect_signal('untagged', function (_, t)
                 if util.client_is_valid(c) and t == tag then
-                    c.minimized = false
+                    cmd.client.unminimize(c)
                 end
             end)
             client.disconnect_signal('tagged', tagged)
@@ -133,11 +136,14 @@ function cmd.client.replace(c)
 end
 
 function cmd.client.unminimize()
-    local s = awful.screen.focused()
-    if #s.hidden_clients == 0 then
-        return
+    local c = util.next_valid_client(minimized_clients)
+    if not c then
+        local s = awful.screen.focused()
+        if #s.hidden_clients == 0 then
+            return
+        end
+        c = s.hidden_clients[1]
     end
-    local c = s.hidden_clients[1]
     c.minimized = false
     c:emit_signal('request::activate', 'dovetail.cmd.client.unminimize',
         {raise = true})

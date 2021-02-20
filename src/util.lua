@@ -7,6 +7,17 @@ function util.client_is_valid(c)
     return pcall(function () return c.valid end) and c.valid
 end
 
+function util.next_valid_client(cs)
+    if #cs == 0 then
+        return
+    end
+    local c = table.remove(cs)
+    if util.client_is_valid(c) then
+        return c
+    end
+    return next_valid(cs)
+end
+
 function util.selected_tag(s)
     s = s or awful.screen.focused()
     return s.selected_tag
