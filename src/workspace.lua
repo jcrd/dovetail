@@ -20,35 +20,6 @@ tag.connect_signal('request::default_layouts', function ()
     }
 end)
 
-local function emit_arrange(t)
-    t.screen:emit_signal('arrange', t.screen)
-end
-
-tag.connect_signal('tagged', emit_arrange)
-tag.connect_signal('untagged', emit_arrange)
-tag.connect_signal('property::layout', emit_arrange)
-
-screen.connect_signal('arrange', function (s)
-    local cls = s.tiled_clients
-    local layout = awful.layout.get(s).name
-
-    if #cls == 1 or layout == 'max' then
-        for _, c in ipairs(cls) do
-            c.border_width = 0
-        end
-    else
-        for _, c in ipairs(cls) do
-            c.border_width = beautiful.border_width
-        end
-    end
-
-    for _, c in ipairs(s.clients) do
-        if c.floating then
-            c.border_width = beautiful.border_width
-        end
-    end
-end)
-
 screen.connect_signal('tag::history::update', function (s)
     local t = selected_tag(s)
     if not t then
