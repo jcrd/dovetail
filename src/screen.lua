@@ -40,14 +40,16 @@ local info = {
     layout = wibox.layout.fixed.horizontal,
 }
 
-if config.options.enable_battery_widget then
-    table.insert(info, 1, {
-        require('dovetail.widgets.battery').widget.time(),
-        widget = wibox.container.margin,
-        left = beautiful.info_margins,
-        right = beautiful.info_margins,
-    })
-end
+config.add_hook(function (opts)
+    if opts.enable_battery_widget then
+        table.insert(info, 1, {
+            require('dovetail.widgets.battery').widget.time(),
+            widget = wibox.container.margin,
+            left = beautiful.info_margins,
+            right = beautiful.info_margins,
+        })
+    end
+end)
 
 local function index_markup(i)
     i = i or #awful.screen.focused().tags + 1

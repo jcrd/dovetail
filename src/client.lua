@@ -69,18 +69,20 @@ client.connect_signal('unfocus', function (c)
     end
 end)
 
-if not config.options.allow_maximized_clients then
-    local props = {
-        'maximized',
-        'maximized_vertical',
-        'maximized_horizontal',
-    }
+config.add_hook(function (opts)
+    if not opts.allow_maximized_clients then
+        local props = {
+            'maximized',
+            'maximized_vertical',
+            'maximized_horizontal',
+        }
 
-    for _, prop in ipairs(props) do
-        client.connect_signal('property::'..prop, function (c)
-            if c[prop] then
-                c[prop] = false
-            end
-        end)
+        for _, prop in ipairs(props) do
+            client.connect_signal('property::'..prop, function (c)
+                if c[prop] then
+                    c[prop] = false
+                end
+            end)
+        end
     end
-end
+end)
