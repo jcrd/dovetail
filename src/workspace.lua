@@ -47,7 +47,7 @@ end
 
 function ws.emptyp(tag)
     tag = tag or selected_tag()
-    local n = config.options.new_workspace_name
+    local n = config.options.scratch_workspace_name
     if not (tag and tag.name == n) then
         return false
     end
@@ -73,7 +73,7 @@ function ws.with(index, prompt, func, name)
             if name == '' then
                 return
             end
-            t = workspace.new(name or config.options.new_workspace_name)
+            t = workspace.new(name or config.options.scratch_workspace_name)
         end
     end
     func(t)
@@ -97,7 +97,7 @@ function ws.new(args)
     args.callback = function (t)
         t:view_only()
     end
-    workspace.new(args.name or config.options.new_workspace_name, args)
+    workspace.new(args.name or config.options.scratch_workspace_name, args)
 end
 
 return ws

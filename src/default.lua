@@ -39,7 +39,7 @@ default.theme = {
 
 default.options = {
     default_workspace_name = 'main',
-    new_workspace_name = 'scratch',
+    scratch_workspace_name = 'scratch',
     workspace_search_paths = {},
     backlight_name = 'default',
     brightness_step = 10,
