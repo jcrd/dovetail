@@ -118,7 +118,7 @@ config.add_hook(function (opts)
 
         client.connect_signal('unfocus', function (c)
             local t = c.first_tag
-            if not t.scratch_workspace then
+            if not (t.selected and t.scratch_workspace) then
                 return
             end
             if not (client.focus and client.focus.first_tag == t) then
