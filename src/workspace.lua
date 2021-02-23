@@ -110,6 +110,9 @@ end
 config.add_hook(function (opts)
     if opts.rename_scratch_workspaces then
         client.connect_signal('focus', function (c)
+            if c.launch_panel then
+                return
+            end
             local t = c.first_tag
             if t.scratch_workspace then
                 t.name = c.class
@@ -117,8 +120,11 @@ config.add_hook(function (opts)
         end)
 
         client.connect_signal('unfocus', function (c)
+            if c.launch_panel then
+                return
+            end
             local t = c.first_tag
-            if not (t.selected and t.scratch_workspace) then
+            if not (t and t.selected and t.scratch_workspace) then
                 return
             end
             if not (client.focus and client.focus.first_tag == t) then
