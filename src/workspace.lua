@@ -32,6 +32,12 @@ screen.connect_signal('tag::history::update', function (s)
     table.insert(history, t.index)
 end)
 
+local function new_workspace(name, scratch, args)
+    local t = workspace.new(name, args)
+    t.scratch_workspace = scratch
+    return t
+end
+
 function ws.restore()
     local tag = selected_tag()
     for index=#history,1,-1 do
@@ -47,8 +53,7 @@ end
 
 function ws.emptyp(tag)
     tag = tag or selected_tag()
-    local n = config.options.scratch_workspace_name
-    if not (tag and tag.name == n) then
+    if not (tag and tag.scratch_workspace) then
         return false
     end
     local c = tag:clients()
@@ -73,7 +78,8 @@ function ws.with(index, prompt, func, name)
             if name == '' then
                 return
             end
-            t = workspace.new(name or config.options.scratch_workspace_name)
+            local n = name or config.options.scratch_workspace_name
+            t = new_workspace(n, name == nil)
         end
     end
     func(t)
@@ -97,7 +103,29 @@ function ws.new(args)
     args.callback = function (t)
         t:view_only()
     end
-    workspace.new(args.name or config.options.scratch_workspace_name, args)
+    local n = args.name or config.options.scratch_workspace_name
+    new_workspace(n, args.name == nil, args)
 end
+
+config.add_hook(function (opts)
+    if opts.rename_scratch_workspaces then
+        client.connect_signal('focus', function (c)
+            local t = c.first_tag
+            if t.scratch_workspace then
+                t.name = c.class
+            end
+        end)
+
+        client.connect_signal('unfocus', function (c)
+            local t = c.first_tag
+            if not t.scratch_workspace then
+                return
+            end
+            if not (client.focus and client.focus.first_tag == t) then
+                t.name = opts.scratch_workspace_name
+            end
+        end)
+    end
+end)
 
 return ws
