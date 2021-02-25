@@ -239,12 +239,12 @@ screen.connect_signal('request::desktop_decoration', function (s)
         width = s.geometry.width / 2,
     }
 
-    s.dovetail_wibox = awful.wibar {
+    s.dovetail_wibar = awful.wibar {
         height = beautiful.wibar_height,
         screen = s,
     }
 
-    s.dovetail_wibox:setup {
+    s.dovetail_wibar:setup {
         s.dovetail_taglist,
         s.dovetail_clientlist,
         info,
