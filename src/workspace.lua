@@ -1,6 +1,6 @@
 local awful = require('awful')
 local beautiful = require('beautiful')
-local gtable = require('gears.table')
+local gears = require('gears')
 
 local dovetail = require('awesome-dovetail')
 local selected_tag = require('dovetail.util').selected_tag
@@ -21,15 +21,17 @@ tag.connect_signal('request::default_layouts', function ()
 end)
 
 screen.connect_signal('tag::history::update', function (s)
-    local t = selected_tag(s)
-    if not t then
-        return
-    end
-    local i = gtable.hasitem(history, t.index)
-    if i then
-        table.remove(history, i)
-    end
-    table.insert(history, t.index)
+    gears.timer.delayed_call(function ()
+        local t = selected_tag(s)
+        if not t then
+            return
+        end
+        local i = gears.table.hasitem(history, t.index)
+        if i then
+            table.remove(history, i)
+        end
+        table.insert(history, t.index)
+    end)
 end)
 
 local function new_workspace(name, scratch, args)
