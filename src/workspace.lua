@@ -133,6 +133,19 @@ config.add_hook(function (opts)
                 t.name = opts.scratch_workspace_name
             end
         end)
+
+        local function tags_changed(_, t)
+            if not t.scratch_workspace then
+                return
+            end
+            local cs = t:clients()
+            if #cs == 1 and not cs[1].launch_panel then
+                t.name = cs[1].class
+            end
+        end
+
+        client.connect_signal('tagged', tags_changed)
+        client.connect_signal('untagged', tags_changed)
     end
 end)
 
