@@ -139,8 +139,11 @@ config.add_hook(function (opts)
                 return
             end
             local cs = t:clients()
-            if #cs == 1 and not cs[1].launch_panel then
-                t.name = cs[1].class
+            local c = cs[#cs]
+            if not c then
+                t.name = opts.scratch_workspace_name
+            elseif not c.launch_panel then
+                t.name = c.class
             end
         end
 
