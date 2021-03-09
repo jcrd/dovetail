@@ -34,10 +34,32 @@ screen.connect_signal('tag::history::update', function (s)
     end)
 end)
 
-local function new_workspace(name, scratch, args)
-    local t = workspace.new(name, args)
-    t.scratch_workspace = scratch
+local function new_workspace(name, args)
+    local n = name or config.options.scratch_workspace_name
+    local t = workspace.new(n, args)
+    t.scratch_workspace = name == nil
     return t
+end
+
+function ws.recreate(clients_per_tag)
+    if #clients_per_tag == 0 then
+        return
+    end
+
+    local default = table.remove(clients_per_tag, 1)
+    for _, c in ipairs(default) do
+        local s = awful.screen.preferred(c)
+        c:tags({s.tags[1]})
+    end
+
+    for i, cs in ipairs(clients_per_tag) do
+        for _, c in ipairs(cs) do
+            local s = awful.screen.preferred(c)
+            local t = s.tags[i + 1] or new_workspace(nil,
+                {props = {screen = s}})
+            c:tags({t})
+        end
+    end
 end
 
 function ws.restore()
@@ -80,8 +102,7 @@ function ws.with(index, prompt, func, name)
             if name == '' then
                 return
             end
-            local n = name or config.options.scratch_workspace_name
-            t = new_workspace(n, name == nil)
+            t = new_workspace(name)
         end
     end
     func(t)
@@ -105,8 +126,7 @@ function ws.new(args)
     args.callback = function (t)
         t:view_only()
     end
-    local n = args.name or config.options.scratch_workspace_name
-    new_workspace(n, args.name == nil, args)
+    new_workspace(args.name, args)
 end
 
 config.add_hook(function (opts)

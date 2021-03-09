@@ -11,6 +11,11 @@ local config = require('dovetail.config')
 local util = require('dovetail.util')
 local ws = require('dovetail.workspace')
 
+screen.default_focused_args = {
+    client = true,
+    mouse = false,
+}
+
 local clock_widget = wibox.widget.textclock(beautiful.clock_format)
 
 session.connect_signal('PrepareForSleep', function (before)

@@ -1,9 +1,11 @@
 local awful = require('awful')
 local beautiful = require('beautiful')
+local ruled = require('ruled')
 
 require('awful.autofocus')
 
 local config = require('dovetail.config')
+local ws = require('dovetail.workspace')
 
 local function emit_arrange(t)
     t.screen:emit_signal('arrange', t.screen)
@@ -32,6 +34,38 @@ screen.connect_signal('arrange', function (s)
             c.border_width = beautiful.border_width
         end
     end
+end)
+
+awful.client.property.persist('tag_index', 'number')
+
+local clients_per_tag = {}
+
+local scanning_rule = {
+    id = 'scanning_rule',
+    rule = {},
+    callback = function (c)
+        if not c.tag_index then
+            return
+        end
+        local cs = clients_per_tag[c.tag_index] or {}
+        table.insert(cs, c)
+        clients_per_tag[c.tag_index] = cs
+    end,
+}
+
+client.connect_signal('scanning', function ()
+    ruled.client.append_rule(scanning_rule)
+end)
+
+client.connect_signal('scanned', function ()
+    ruled.client.remove_rule(scanning_rule)
+end)
+
+awesome.connect_signal('startup', function ()
+    client.connect_signal('tagged', function (c, t)
+        c.tag_index = t.index
+    end)
+    ws.recreate(clients_per_tag)
 end)
 
 client.connect_signal('property::floating', function (c)
