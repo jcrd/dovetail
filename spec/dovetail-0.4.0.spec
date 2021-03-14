@@ -1,11 +1,11 @@
 Name: dovetail
-Version: 0.3.0
+Version: 0.4.0
 Release: 1%{?dist}
 Summary: An opinionated window manager
 
 License: MIT
 URL: https://github.com/jcrd/dovetail
-Source0: https://github.com/jcrd/dovetail/archive/v0.3.0.tar.gz
+Source0: https://github.com/jcrd/dovetail/archive/v0.4.0.tar.gz
 
 BuildArch: noarch
 
@@ -45,6 +45,9 @@ An opinionated window manager.
 /etc/xdg/dovetail
 
 %changelog
+* Sun Mar 14 2021 James Reed <jcrd@tuta.io> - 0.4.0-1
+- Release v0.4.0
+
 * Tue Feb 16 2021 James Reed <jcrd@tuta.io> - 0.3.0-1
 - Release v0.3.0
 
