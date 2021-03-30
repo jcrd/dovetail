@@ -9,9 +9,4 @@ PartOf=graphical-session.target
 
 [Service]
 ExecStart=/usr/bin/dovetail
-ExecStopPost=/usr/bin/sessionctl stop
 Restart=always
-
-[Install]
-WantedBy=graphical-session.target
-Alias=window-manager.service
