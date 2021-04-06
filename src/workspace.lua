@@ -41,6 +41,10 @@ local function new_workspace(name, args)
     return t
 end
 
+local function client_tag_name(c)
+    return c.class or c.name or "unknown"
+end
+
 function ws.recreate(clients_per_tag)
     if #clients_per_tag == 0 then
         return
@@ -137,7 +141,7 @@ config.add_hook(function (opts)
             end
             local t = c.first_tag
             if t.scratch_workspace then
-                t.name = c.class
+                t.name = client_tag_name(c)
             end
         end)
 
@@ -163,7 +167,7 @@ config.add_hook(function (opts)
             if not c then
                 t.name = opts.scratch_workspace_name
             elseif not c.launch_panel then
-                t.name = c.class
+                t.name = client_tag_name(c)
             end
         end
 
