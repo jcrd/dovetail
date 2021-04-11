@@ -10,3 +10,6 @@ PartOf=graphical-session.target
 [Service]
 ExecStart=/usr/bin/dovetail
 Restart=always
+
+[Install]
+Alias=window-manager.service
