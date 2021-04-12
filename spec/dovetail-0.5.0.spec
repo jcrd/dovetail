@@ -1,11 +1,11 @@
 Name: dovetail
-Version: 0.4.0
+Version: 0.5.0
 Release: 1%{?dist}
 Summary: An opinionated window manager
 
 License: MIT
 URL: https://github.com/jcrd/dovetail
-Source0: https://github.com/jcrd/dovetail/archive/v0.4.0.tar.gz
+Source0: https://github.com/jcrd/dovetail/archive/v0.5.0.tar.gz
 
 BuildArch: noarch
 
@@ -16,7 +16,7 @@ Requires: awesome
 Requires: bash
 Requires: pulseaudio
 Requires: rofi
-Requires: sessiond
+Requires: sessiond >= 0.5.0
 Requires: wm-launch >= 0.5.0
 
 Recommends: upower
@@ -45,6 +45,10 @@ An opinionated window manager.
 /etc/xdg/dovetail
 
 %changelog
+* Mon Apr 12 2021 James Reed <james@twiddlingbits.net> - 0.5.0-1
+- Release v0.5.0
+- Depend on sessiond >= 0.5.0
+
 * Sun Mar 14 2021 James Reed <jcrd@tuta.io> - 0.4.0-1
 - Release v0.4.0
 

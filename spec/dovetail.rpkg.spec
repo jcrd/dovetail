@@ -17,7 +17,7 @@ Requires: awesome
 Requires: bash
 Requires: pulseaudio
 Requires: rofi
-Requires: sessiond
+Requires: sessiond >= 0.5.0
 Requires: wm-launch >= 0.5.0
 
 Recommends: ImageMagick
