@@ -27,6 +27,18 @@ dovetail is an opinionated window manager based on
     * Built-in `pulseaudio` control with visual feedback
     * Optionally use `upower` to display laptop battery stats
 
+## Packages
+
+* **RPM** package available from [copr][copr]. [![Copr build status](https://copr.fedorainfracloud.org/coprs/jcrd/dovetail/package/dovetail/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/jcrd/dovetail/package/dovetail/)
+
+  Install with:
+  ```
+  dnf copr enable jcrd/dovetail
+  dnf install dovetail
+  ```
+
+[copr]: https://copr.fedorainfracloud.org/coprs/jcrd/dovetail/
+
 ## License
 
 This project is licensed under the MIT License (see [LICENSE](LICENSE)).
