@@ -40,7 +40,6 @@ An opinionated window manager.
 %doc README.md
 /usr/bin/%{name}
 /usr/share/dovetail
-/usr/share/xsessions/%{name}.desktop
 /usr/lib/systemd/user/%{name}.service
 /etc/xdg/dovetail
 

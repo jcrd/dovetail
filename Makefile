@@ -57,7 +57,6 @@ install:
 	mkdir -p $(DESTDIR)/etc/xdg/dovetail
 	cp -p config.def.lua $(DESTDIR)$(DEFAULT_CONFIG)
 	mkdir -p $(DESTDIR)$(SHAREPREFIX)/xsessions
-	cp -p dovetail.desktop $(DESTDIR)$(SHAREPREFIX)/xsessions
 
 uninstall:
 	rm -f $(DESTDIR)$(BINPREFIX)/dovetail
