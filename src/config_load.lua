@@ -95,10 +95,10 @@ end
 
 function handler.theme(t)
     t.font_size = dpi(t.font_size)
-    t.bar_growth = dpi(t.bar_growth)
+    t.bar_padding = dpi(t.bar_padding)
     t.info_margins = dpi(t.info_margins)
     t.font = string.format('%s %dpx', t.font_name, t.font_size)
-    t.wibar_height = t.font_size + t.bar_growth
+    t.wibar_height = t.font_size + t.bar_padding
     t.master_width_factor = t.master_width
 
     local apply_dpi = {

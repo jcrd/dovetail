@@ -10,7 +10,7 @@ local colors = {
 default.theme = {
     font_name = 'monospace',
     font_size = 12,
-    bar_growth = 4,
+    bar_padding = 4,
     info_margins = 10,
 
     master_width = 0.6,
