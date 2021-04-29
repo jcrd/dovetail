@@ -38,7 +38,7 @@ default.theme = {
 }
 
 default.options = {
-    default_workspace_name = 'main',
+    main_workspace_name = 'main',
     scratch_workspace_name = 'scratch',
     rename_scratch_workspaces = true,
     workspace_search_paths = {},

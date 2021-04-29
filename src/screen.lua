@@ -163,7 +163,7 @@ screen.connect_signal('request::desktop_decoration', function (s)
         end
     end)
 
-    awful.tag.add(config.options.default_workspace_name, {
+    awful.tag.add(config.options.main_workspace_name, {
         screen = s,
         selected = true,
         layout = awful.layout.layouts[1],
