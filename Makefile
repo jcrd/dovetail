@@ -41,6 +41,8 @@ $(BUILDDIR)/share: clean-share $(BUILDDIR)/init.lua $(LUA_MODULES)
 tree:
 	./scripts/make_tree.sh $(LUA_TREE)
 
+init: tree $(BUILDDIR)/share
+
 $(LUA_MODULES): clean-modules
 	mkdir -p $(LUA_MODULES)
 	cp -r $(LUA_TREE_SHARE)/* $(LUA_MODULES)
@@ -78,5 +80,5 @@ clean-modules:
 
 clean-all: clean clean-tree clean-modules
 
-.PHONY: all install uninstall \
+.PHONY: all init install uninstall \
 	clean clean-share clean-tree clean-modules clean-all
