@@ -7,12 +7,16 @@ local pulse = require('pulseaudio_dbus')
 
 local audio = {}
 
+local connection_failed = false
 local conn
 local core
 local sink
 local widget
 
 local function get_volume()
+    if not sink then
+        return 0
+    end
     return sink:get_volume_percent()[1]
 end
 
@@ -77,6 +81,9 @@ local function update_sink(s)
 end
 
 local function connect()
+    if connection_failed then
+        return false
+    end
     if not conn then
         _, conn = xpcall(function ()
             return pulse.get_connection(pulse.get_address())
@@ -84,8 +91,13 @@ local function connect()
         function (err)
             print(string.format('[pulseaudio] dbus connection failed: %s', err))
         end)
+        if not conn then
+            widget.visible = false
+            connection_failed = true
+            return false
+        end
     end
-    if conn and not core then
+    if not core then
         core = pulse.get_core(conn)
 
         core:ListenForSignal('org.PulseAudio.Core1.Device.VolumeUpdated', {})
@@ -99,6 +111,14 @@ local function connect()
 
         connect_device(update_sink())
     end
+    if not sink then
+        print('[pulseaudio] failed to get sink')
+        widget.visible = false
+        connection_failed = true
+        return false
+    end
+
+    return true
 end
 
 audio.widget = {}
@@ -131,21 +151,26 @@ function audio.widget.volumebar()
             layout = wibox.layout.fixed.horizontal,
         }
         gears.timer.delayed_call(function ()
-            connect()
-            update()
+            if connect() then
+                update()
+            end
         end)
     end
     return widget
 end
 
 function audio.adjust(v)
-    connect()
+    if not connect() then
+        return
+    end
     local i = math.max(0, math.min(get_volume() + v, 100))
     sink:set_volume_percent({i})
 end
 
 function audio.toggle()
-    connect()
+    if not connect() then
+        return
+    end
     sink:toggle_muted()
 end
 
