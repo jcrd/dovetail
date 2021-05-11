@@ -38,12 +38,12 @@ $(BUILDDIR)/share: clean-share $(BUILDDIR)/init.lua $(LUA_MODULES)
 	mkdir -p $@
 	./scripts/make_share.sh $@ $(LUA_MODULES)
 
-tree:
+$(LUA_TREE):
 	./scripts/make_tree.sh $(LUA_TREE)
 
-init: tree $(BUILDDIR)/share
+init: $(BUILDDIR)/share
 
-$(LUA_MODULES): clean-modules
+$(LUA_MODULES): clean-modules $(LUA_TREE)
 	mkdir -p $(LUA_MODULES)
 	cp -r $(LUA_TREE_SHARE)/* $(LUA_MODULES)
 
