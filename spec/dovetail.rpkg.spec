@@ -15,12 +15,12 @@ BuildRequires: make
 
 Requires: awesome
 Requires: bash
-Requires: pulseaudio
 Requires: rofi
 Requires: sessiond >= 0.5.0
 Requires: wm-launch >= 0.5.0
 
 Recommends: ImageMagick
+Recommends: pulseaudio
 Recommends: upower
 
 %global debug_package %{nil}
