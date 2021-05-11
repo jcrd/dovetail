@@ -82,7 +82,7 @@ local function connect()
             return pulse.get_connection(pulse.get_address())
         end,
         function (err)
-            print('pulseaudio dbus connection failed: %s', err)
+            print(string.format('[pulseaudio] dbus connection failed: %s', err))
         end)
     end
     if conn and not core then
