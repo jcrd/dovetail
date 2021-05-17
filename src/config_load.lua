@@ -16,6 +16,7 @@ local default = require('dovetail.default')
 local inhibit = require('dovetail.inhibit')
 local log = require('dovetail.log')
 local menu = require('dovetail.menu')
+local screenshot = require('dovetail.screenshot')
 
 uuid.seed()
 
@@ -145,6 +146,7 @@ function handler.options(t)
     config.options = t
 
     menu.workspace.search_paths = t.workspace_search_paths
+    screenshot.directory = t.screenshot_directory
 
     if t.hide_mouse_on_startup then
         awesome.connect_signal('startup', cmd.mouse.hide)

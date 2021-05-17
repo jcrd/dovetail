@@ -93,6 +93,8 @@ options {
     -- Give volume feedback via notifications when a fullscreen client is
     -- focused.
     fullscreen_audio_notifications = true,
+    -- Directory where screenshots are saved.
+    screenshot_directory = '~/screenshots',
 }
 
 -- Notification options.

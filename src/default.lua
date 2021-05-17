@@ -52,6 +52,7 @@ default.options = {
     battery_charged_percent = 95,
     fullscreen_audio_notifications = true,
     enable_battery_widget = os.getenv('CHASSIS') == 'laptop',
+    screenshot_directory = '~/screenshots',
 }
 
 return default
