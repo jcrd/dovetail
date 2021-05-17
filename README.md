@@ -19,13 +19,16 @@ dovetail is an opinionated window manager based on
         * Client rules.
 
 2. Requires a modern, DBus-capable Linux environment
-    * [sessiond](https://sessiond.org/) as a session manager
+    * [sessiond][sessiond] as a session manager
         * Locks the screen on session idle.
         * Use rules to make specific clients inhibit idling.
-    * [wm-launch](https://github.com/jcrd/wm-launch) to identify clients
+    * [wm-launch][wm-launch] to identify clients
         * Clients can be reliably assigned to workspaces.
     * Built-in `pulseaudio` control with visual feedback
     * Optionally use `upower` to display laptop battery stats
+
+[sessiond]: https://sessiond.org/
+[wm-launch]: https://github.com/jcrd/wm-launch
 
 ## Packages
 
@@ -39,6 +42,50 @@ dovetail is an opinionated window manager based on
 
 [copr]: https://copr.fedorainfracloud.org/coprs/jcrd/dovetail/
 
+## Dependencies
+
+* awesome == latest *[runtime]*
+    * dovetail currently tracks awesome's [master branch][master]
+* luarocks *[build]*
+* make *[build]*
+* bash *[runtime]*
+* pulseaudio *[runtime]*
+* rofi *[runtime]*
+* sessiond >= 0.5.0 *[runtime]*
+* wm-launch >= 0.5.0 *[runtime]*
+
+* ImageMagick *[runtime,optional]*
+    * for screenshot feature
+* upower *[runtime,optional]*
+    * for laptop battery stats feature
+
+[master]: https://github.com/awesomeWM/awesome
+
+## Configuration
+
+Copy the default configuration from `/etc/xdg/dovetail/config.lua` to
+`~/.config/dovetail/config.lua` and edit as needed.
+
+See the comments in [config.def.lua](config.def.lua) for descriptions of
+options and bindings.
+
+### Key and button bindings
+
+Keys and buttons are bound to commands using this syntax: `<meta>-<mod>-<key>`.
+
+`<meta>` can be one of:
+  * `M` (super key, typically the *Windows* key)
+  * `A` (alt key)
+
+`<mod>` can be one of:
+  * `S` (shift key)
+  * `C` (control key)
+
+`<key>` can be the name of any keysym as given by `xev`.
+
+For example, the keybinding `M-S-Return` is triggered by pressing and holding
+the super and shift keys, then pressing `Return`.
+
 ## Getting started
 
 After installing dovetail, enable the service with
@@ -46,37 +93,93 @@ After installing dovetail, enable the service with
 
 Now, start a `sessiond session` via your display manager.
 
-See [Session management](https://sessiond.org/session-management/) for
-information about running other services in this session.
+See *sessiond*'s [Session management][management] for information about running
+other services in this session.
+
+[management]: https://sessiond.org/session-management/#running-services
 
 ### Workspace navigation
 
-In dovetail, workspaces are volatile: they exist only if non-empty. At startup,
-the main workspace, which always exists, will be selected.  With this in mind,
-we can navigate to a new workspace using (by default) one of these keybindings:
+The workspace paradigm in dovetail follows these rules:
+* workspaces exist only if non-empty
+* a `main` workspace always exists
+
+Navigate to a new workspace using (by default) these keybindings:
 
 * `Meta-2` to select the second workspace
+    * press again to select the previously selected workspace, in this case
+      `main`
 * `Meta-Shift-j` to select the next workspace
-* `Meta-Shift-k` to select the previous workspace (wraps at the beginning of the
-  workspace list)
+    * press again to wrap to the start of the workspace list, selecting `main`
+* `Meta-Shift-k` to select the previous workspace
+    * press again to wrap to the end of the workspace list, selecting `main`
+* `Meta-Tab` to select the previously selected workspace, or the second if
+  only `main` exists
 
-With the second workspace selected, pressing any of the above keybindings will
-select the main workspace, and the second workspace will cease to exist. This is
-because pressing `Meta-2` while the second workspace is already selected will
-select the previously selected workspace. The `Meta-Shift-{j,k}` keybindings
-wrap at the boundaries of the workspace list. Because the second workspace does
-not contain clients, it is removed upon unselection.
+If these keys are pressed again, the second workspace will be removed since it
+does not contain clients.
+
+#### Per-project workspaces
+
+Project-specific workspaces are configured in a [`.workspace`][workspace-files]
+file in a project's directory.
+
+The default keybinding `M-w` opens a menu to create a new workspace based on the
+selected project's `.workspace` file.
+
+These files are searched for in the paths of the `workspace_search_paths`
+option.
+
+[workspace-files]: https://github.com/jcrd/wm-launch#workspace-files
 
 ### Client navigation
 
 In dovetail, there can be at most two visible tiled clients: the top client in
-the stack, and the master client. Newly spawned clients enter the stack. To set
-a client as the master, use `Meta-s`. This will replace the current master.
-Toggle focus between the master and top stack client with `Meta-f`. Use `Meta-j`
-and `Meta-k` to focus the next and previous client in the stack, respectively.
-Close clients with `Meta-Shift-d`.
+the stack, and the master client. By default, a newly spawned client will enter
+the stack.
 
-See [config.def.lua](config.def.lua) for all default keybindings.
+Interact with clients using (by default) these keybindings:
+
+* `Meta-s` to set the focused client as the master, replacing the current
+  master
+* `Meta-o` to toggle maximized state, effectively placing all clients in the
+  stack
+* `Meta-f` to toggle focus between the master and the top stack client
+* `Meta-j` to focus the next client in the stack
+* `Meta-k` to focus the previous client in the stack
+* `Meta-Shift-d` to close the focused client
+
+#### Client minimization
+
+Minimized clients will be displayed in the bar but will not be visible.
+
+Handle minimization using (by default) these keybindings:
+
+* `Meta-x` to minimize the focused client
+* `Meta-S-x` to restore the most recently minimized client
+* `Meta-z` to minimize the focused client when a new client is launched
+
+## Other features
+
+### Inhibiting idle
+
+dovetail can be configured to prevent the session from idling while a specific
+client has focus, for example a media player.
+
+This is set up in the `rules` section of the configuration file by setting
+the `inhibit` option of a rule to `true`.
+
+See *awesome*'s client rule [documentation][rule-docs] for more information.
+
+[rule-docs]: https://awesomewm.org/apidoc/declarative_rules/ruled.client.html
+
+### Screenshots
+
+* `Print` takes a screenshot
+* `S-Print` takes a screenshot of the specified region
+
+Screenshots are by default saved to `~/screenshots`. This location can be
+customized with the option `screenshot_directory`.
 
 ## License
 
