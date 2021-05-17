@@ -210,6 +210,8 @@ keys {
     -- Screenshot.
     -- Take a screenshot, saved by default to `~/screenshots`.
     ['Print'] = cmd.screenshot.take,
+    -- Take a screenshot of the specified region.
+    ['S-Print'] = cmd.screenshot.take_region,
 
     -- Window manager.
     -- Restart dovetail.
