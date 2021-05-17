@@ -3,6 +3,8 @@
 dovetail is an opinionated window manager based on
 [awesome](https://awesomewm.org/).
 
+![](https://github.com/jcrd/dovetail/blob/assets/desktop_screenshot.png)
+
 ## What makes it opinionated?
 
 1. The paradigm
