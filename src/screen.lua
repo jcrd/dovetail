@@ -150,6 +150,30 @@ local function minimized_indicator(s, c)
     return w
 end
 
+local function tasklist_template(s)
+    return {
+        {
+            {
+                {
+                    {
+                        id = 'text_role',
+                        widget = wibox.widget.textbox,
+                    },
+                    layout = wibox.container.constraint,
+                    width = s.geometry.width / 3,
+                },
+                id = 'text_margin_role',
+                left = beautiful.bar_padding,
+                right = beautiful.bar_padding,
+                widget = wibox.container.margin,
+            },
+            layout = wibox.layout.fixed.horizontal,
+        },
+        id = 'background_role',
+        widget = wibox.container.background,
+    }
+end
+
 screen.connect_signal('request::desktop_decoration', function (s)
     -- Workaround for: https://github.com/awesomeWM/awesome/issues/2780
     -- With three tags, select in this order:
@@ -204,27 +228,7 @@ screen.connect_signal('request::desktop_decoration', function (s)
             awful.widget.tasklist {
                 screen = s,
                 filter = awful.widget.tasklist.filter.focused,
-                widget_template = {
-                    {
-                        {
-                            {
-                                {
-                                    id = 'text_role',
-                                    widget = wibox.widget.textbox,
-                                },
-                                layout = wibox.container.constraint,
-                                width = s.geometry.width / 3,
-                            },
-                            id = 'text_margin_role',
-                            left = beautiful.bar_padding,
-                            right = beautiful.bar_padding,
-                            widget = wibox.container.margin,
-                        },
-                        layout = wibox.layout.fixed.horizontal,
-                    },
-                    id = 'background_role',
-                    widget = wibox.container.background,
-                },
+                widget_template = tasklist_template(s),
             },
             launch.widget.launchbar {
                 screen = s,
@@ -234,6 +238,7 @@ screen.connect_signal('request::desktop_decoration', function (s)
             awful.widget.tasklist {
                 screen = s,
                 filter = awful.widget.tasklist.filter.minimizedcurrenttags,
+                widget_template = tasklist_template(s),
             },
             minimized_indicator(s, ' ]'),
             layout = wibox.layout.fixed.horizontal,
