@@ -75,6 +75,7 @@ client.connect_signal('property::floating', function (c)
         if not c.active then
             c.border_color = beautiful.border_normal_floating
         end
+        c:raise()
     else
         c.skip_taskbar = false
     end
