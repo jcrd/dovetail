@@ -205,8 +205,13 @@ screen.connect_signal('request::desktop_decoration', function (s)
                     },
                     {
                         {
-                            id = 'text_role',
-                            widget = wibox.widget.textbox,
+                            {
+                                id = 'text_role',
+                                widget = wibox.widget.textbox,
+                            },
+                            left = beautiful.bar_padding,
+                            right = beautiful.bar_padding,
+                            widget = wibox.container.margin,
                         },
                         id = 'background_role',
                         widget = wibox.container.background,
