@@ -51,6 +51,7 @@ function menu.workspace.rename()
         local t = selected_tag()
         if t and out ~= '' then
             t.name = out
+            t.scratch_workspace = false
         end
     end)
 end
