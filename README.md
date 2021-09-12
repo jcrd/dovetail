@@ -44,25 +44,6 @@ dovetail is an opinionated window manager based on
 
 [copr]: https://copr.fedorainfracloud.org/coprs/jcrd/dovetail/
 
-## Dependencies
-
-* awesome == latest *[runtime]*
-    * dovetail currently tracks awesome's [master branch][master]
-* luarocks *[build]*
-* make *[build]*
-* bash *[runtime]*
-* pulseaudio *[runtime]*
-* rofi *[runtime]*
-* sessiond >= 0.5.0 *[runtime]*
-* wm-launch >= 0.5.0 *[runtime]*
-
-* ImageMagick *[runtime,optional]*
-    * for screenshot feature
-* upower *[runtime,optional]*
-    * for laptop battery stats feature
-
-[master]: https://github.com/awesomeWM/awesome
-
 ## Configuration
 
 Copy the default configuration from `/etc/xdg/dovetail/config.lua` to
@@ -182,6 +163,33 @@ See *awesome*'s client rule [documentation][rule-docs] for more information.
 
 Screenshots are by default saved to `~/screenshots`. This location can be
 customized with the option `screenshot_directory`.
+
+## Building
+
+### Dependencies
+
+* awesome == latest *[runtime]*
+    * dovetail currently tracks awesome's [master branch][master]
+* luarocks *[build]*
+* make *[build]*
+* bash *[runtime]*
+* pulseaudio *[runtime]*
+* rofi *[runtime]*
+* sessiond >= 0.5.0 *[runtime]*
+* wm-launch >= 0.5.0 *[runtime]*
+
+* ImageMagick *[runtime,optional]*
+    * for screenshot feature
+* upower *[runtime,optional]*
+    * for laptop battery stats feature
+
+[master]: https://github.com/awesomeWM/awesome
+
+Ensure the above build dependencies are satisfied and run: `make`.
+
+### Installing
+
+Install with `make install`.
 
 ## License
 
