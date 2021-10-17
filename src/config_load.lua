@@ -142,6 +142,10 @@ function handler.theme(t)
     end
 end
 
+function handler.widgets(t)
+    config.widgets = t
+end
+
 function handler.options(t)
     config.options = t
 

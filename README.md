@@ -69,6 +69,11 @@ Keys and buttons are bound to commands using this syntax: `<meta>-<mod>-<key>`.
 For example, the keybinding `M-S-Return` is triggered by pressing and holding
 the super and shift keys, then pressing `Return`.
 
+### Widgets
+
+Information widgets to be displayed in the bar are defined in the `widgets` list
+of the configuration file.
+
 ## Getting started
 
 After installing dovetail, enable the service with

@@ -24,35 +24,39 @@ session.connect_signal('PrepareForSleep', function (before)
     end
 end)
 
-local info = {
-    {
-        audio.widget.volumebar(),
+local function info_widget(w)
+    return {
+        w,
         widget = wibox.container.margin,
         left = beautiful.info_margins,
         right = beautiful.info_margins,
-    },
-    {
-        {
-            clock_widget,
-            widget = wibox.container.margin,
-            left = beautiful.info_margins,
-            right = beautiful.info_margins,
-        },
-        widget = wibox.container.background,
-        fg = beautiful.fg_focus,
-        bg = beautiful.bg_focus,
-    },
+    }
+end
+
+local info = {
     layout = wibox.layout.fixed.horizontal,
 }
 
-if config.options.enable_battery_widget then
-    table.insert(info, 1, {
-        require('dovetail.widgets.battery').widget.time(),
-        widget = wibox.container.margin,
-        left = beautiful.info_margins,
-        right = beautiful.info_margins,
-    })
+for _, name in ipairs(config.widgets) do
+    local w
+    if name == 'audio' then
+        w = audio.widget.volumebar()
+    elseif name == 'battery' then
+        if config.options.enable_battery_widget then
+            w = require('dovetail.widgets.battery').widget.time()
+        end
+    end
+    if w then
+        table.insert(info, info_widget(w))
+    end
 end
+
+table.insert(info, {
+    info_widget(clock_widget),
+    widget = wibox.container.background,
+    fg = beautiful.fg_focus,
+    bg = beautiful.bg_focus,
+})
 
 local function index_markup(i)
     i = i or #awful.screen.focused().tags + 1

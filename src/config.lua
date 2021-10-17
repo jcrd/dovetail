@@ -2,6 +2,7 @@ local config = {}
 
 local hooks = {}
 
+config.widgets = {}
 config.options = {}
 
 function config.add_hook(func)

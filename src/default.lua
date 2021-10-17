@@ -37,6 +37,11 @@ default.theme = {
     clock_format = '<span size=\'smaller\' rise=\'1000\'></span> %a, %b %e  %l:%M%P',
 }
 
+default.widgets = {
+    'battery',
+    'audio',
+}
+
 default.options = {
     main_workspace_name = 'main',
     scratch_workspace_name = 'scratch',

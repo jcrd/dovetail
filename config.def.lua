@@ -65,6 +65,13 @@ theme {
     clock_format = '<span size=\'smaller\' rise=\'1000\'></span> %a, %b %e  %l:%M%P',
 }
 
+-- Info widgets list.
+-- Available widgets: audio, battery
+widgets {
+    'battery',
+    'audio',
+}
+
 -- General options.
 options {
     -- Name of the main workspace.
