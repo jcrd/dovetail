@@ -18,6 +18,7 @@ Requires: bash
 Requires: rofi
 Requires: sessiond >= 0.5.0
 Requires: wm-launch >= 0.5.0
+Requires: fontawesome-fonts
 
 Recommends: ImageMagick
 Recommends: pulseaudio

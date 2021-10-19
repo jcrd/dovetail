@@ -1,6 +1,6 @@
 Name: dovetail
 Version: 0.6.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: An opinionated window manager
 
 License: MIT
@@ -17,6 +17,7 @@ Requires: bash
 Requires: rofi
 Requires: sessiond >= 0.5.0
 Requires: wm-launch >= 0.5.0
+Requires: fontawesome-fonts
 
 Recommends: ImageMagick
 Recommends: pulseaudio
@@ -45,6 +46,9 @@ An opinionated window manager.
 /etc/xdg/dovetail
 
 %changelog
+* Tue Oct 19 2021 James Reed <james@twiddlingbits.net> - 0.6.0-2
+- Add missing fontawesome-fonts dependency
+
 * Tue Aug 10 2021 James Reed <james@twiddlingbits.net> - 0.6.0-1
 - Release v0.6.0
 
