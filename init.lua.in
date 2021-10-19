@@ -1,3 +1,5 @@
+require('dovetail.assets').load(@assets_path)
+
 require('dovetail.config_load')(
     @default_config,
     @config_dir,

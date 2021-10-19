@@ -8,6 +8,7 @@ local panel = require('awesome-launch.panel')
 local session = require('sessiond_dbus')
 
 local audio = require('dovetail.widgets.audio')
+local pomodoro = require('dovetail.widgets.pomodoro')
 local config = require('dovetail.config')
 local menu = require('dovetail.menu')
 local util = require('dovetail.util')
@@ -271,6 +272,13 @@ cmd.session.brightness.dec = backlight('dec_brightness')
 cmd.audio = {}
 cmd.audio.adjust = audio.adjust
 cmd.audio.toggle = audio.toggle
+
+-- Pomodoro.
+cmd.pomodoro = {}
+cmd.pomodoro.toggle = pomodoro.toggle
+cmd.pomodoro.stop = pomodoro.stop
+cmd.pomodoro.restart = pomodoro.restart
+cmd.pomodoro.skip = pomodoro.skip
 
 -- Screenshot.
 cmd.screenshot = {}

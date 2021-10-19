@@ -45,6 +45,8 @@ for _, name in ipairs(config.widgets) do
         if config.options.enable_battery_widget then
             w = require('dovetail.widgets.battery').widget.time()
         end
+    elseif name == 'pomodoro' then
+        w = require('dovetail.widgets.pomodoro').widget.timer()
     end
     if w then
         table.insert(info, info_widget(w))

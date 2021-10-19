@@ -38,6 +38,7 @@ default.theme = {
 }
 
 default.widgets = {
+    'pomodoro',
     'battery',
     'audio',
 }

@@ -169,6 +169,15 @@ See *awesome*'s client rule [documentation][rule-docs] for more information.
 Screenshots are by default saved to `~/screenshots`. This location can be
 customized with the option `screenshot_directory`.
 
+### Pomodoro timer
+
+Ensure `pomodoro` is part of the [widgets list](#widgets) in the configuration
+file, then use these keybindings:
+
+* `M-t` starts or pauses the timer
+* `M-S-t` stops the timer
+* `M-S-r` restarts the timer
+
 ## Building
 
 ### Dependencies
@@ -199,3 +208,9 @@ Install with `make install`.
 ## License
 
 This project is licensed under the MIT License (see [LICENSE](LICENSE)).
+
+## Acknowledgements
+
+* Pomodoro icons provided by [pomicons][pomicons]
+
+[pomicons]: https://github.com/gabrielelana/pomicons

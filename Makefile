@@ -7,6 +7,7 @@ SHAREPREFIX ?= $(PREFIX)/share
 LIBPREFIX ?= $(PREFIX)/lib
 
 DOVETAIL_SHARE := $(SHAREPREFIX)/dovetail
+SHARE_ASSETS := $(DOVETAIL_SHARE)/assets
 LUA_SHARE := $(DOVETAIL_SHARE)/lua
 LUA_TREE := tree
 LUA_MODULES := lua_modules
@@ -33,6 +34,7 @@ $(BUILDDIR)/init.lua: init.lua.in
 	sed -e "s|@default_config|'$(DEFAULT_CONFIG)'|" \
 		-e "s|@config_dir|'$(CONFIG_DIR)'|" \
 		-e "s|@config_file|'$(CONFIG_FILE)'|" \
+		-e "s|@assets_path|'$(SHARE_ASSETS)'|" \
 		$< > $@
 
 $(BUILDDIR)/share: clean-share $(BUILDDIR)/init.lua $(LUA_MODULES)
@@ -55,6 +57,8 @@ install:
 	cp -p $(BUILDDIR)/init.lua $(DESTDIR)$(DOVETAIL_SHARE)
 	cp -pr src $(DESTDIR)$(LUA_SHARE)/dovetail
 	cp -pr $(LUA_MODULES)/* $(DESTDIR)$(LUA_SHARE)
+	mkdir -p $(DESTDIR)$(SHARE_ASSETS)
+	cp -pr assets/* $(DESTDIR)$(SHARE_ASSETS)
 	mkdir -p $(DESTDIR)$(LIBPREFIX)/systemd/user
 	cp -p systemd/dovetail.service $(DESTDIR)$(LIBPREFIX)/systemd/user
 	mkdir -p $(DESTDIR)/etc/xdg/dovetail

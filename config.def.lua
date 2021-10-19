@@ -66,8 +66,9 @@ theme {
 }
 
 -- Info widgets list.
--- Available widgets: audio, battery
+-- Available widgets: audio, battery, pomodoro
 widgets {
+    'pomodoro',
     'battery',
     'audio',
 }
@@ -213,6 +214,14 @@ keys {
     ['XF86AudioRaiseVolume'] = {cmd.audio.adjust, 2},
     -- Toggle audio muted state.
     ['XF86AudioMute'] = cmd.audio.toggle,
+
+    -- Pomodoro.
+    -- Start/pause timer.
+    ['M-t'] = cmd.pomodoro.toggle,
+    -- Stop timer.
+    ['M-S-t'] = cmd.pomodoro.stop,
+    -- Restart timer.
+    ['M-S-r'] = cmd.pomodoro.restart,
 
     -- Screenshot.
     -- Take a screenshot, saved by default to `~/screenshots`.
