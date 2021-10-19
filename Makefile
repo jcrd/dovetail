@@ -6,11 +6,12 @@ BINPREFIX ?= $(PREFIX)/bin
 SHAREPREFIX ?= $(PREFIX)/share
 LIBPREFIX ?= $(PREFIX)/lib
 
+DOVETAIL_SHARE := $(SHAREPREFIX)/dovetail
+LUA_SHARE := $(DOVETAIL_SHARE)/lua
 LUA_TREE := tree
 LUA_MODULES := lua_modules
 LUA_VERSION := $(shell luarocks config --lua-ver)
 LUA_TREE_SHARE := $(LUA_TREE)/share/lua/$(LUA_VERSION)
-LUA_SHARE := $(SHAREPREFIX)/dovetail
 
 CONFIG_DIR ?= dovetail
 CONFIG_FILE ?= config.lua
@@ -23,7 +24,7 @@ all: $(BUILDDIR)/dovetail.sh $(BUILDDIR)/init.lua
 $(BUILDDIR)/dovetail.sh: dovetail.sh.in
 	mkdir -p $(BUILDDIR)
 	sed -e "s|@VERSION|$(VERSION)|" \
-		-e "s|@LUA_SHARE|$(LUA_SHARE)|" \
+		-e "s|@DOVETAIL_SHARE|$(DOVETAIL_SHARE)|" \
 		$< > $@
 	chmod +x $@
 
@@ -51,7 +52,7 @@ install:
 	mkdir -p $(DESTDIR)$(BINPREFIX)
 	cp -p $(BUILDDIR)/dovetail.sh $(DESTDIR)$(BINPREFIX)/dovetail
 	mkdir -p $(DESTDIR)$(LUA_SHARE)
-	cp -p $(BUILDDIR)/init.lua $(DESTDIR)$(LUA_SHARE)
+	cp -p $(BUILDDIR)/init.lua $(DESTDIR)$(DOVETAIL_SHARE)
 	cp -pr src $(DESTDIR)$(LUA_SHARE)/dovetail
 	cp -pr $(LUA_MODULES)/* $(DESTDIR)$(LUA_SHARE)
 	mkdir -p $(DESTDIR)$(LIBPREFIX)/systemd/user
@@ -62,7 +63,7 @@ install:
 
 uninstall:
 	rm -f $(DESTDIR)$(BINPREFIX)/dovetail
-	rm -fr $(DESTDIR)$(LUA_SHARE)
+	rm -fr $(DESTDIR)$(DOVETAIL_SHARE)
 	rm -f $(DESTDIR)$(LIBPREFIX)/systemd/user/dovetail.service
 	rm -fr $(DESTDIR)/etc/xdg/dovetail
 
