@@ -1,4 +1,6 @@
-require('dovetail.assets').load(@assets_path)
+local share = os.getenv('DOVETAIL_SHARE') or @share_path
+
+require('dovetail.assets').load(share..'/assets')
 
 require('dovetail.config_load')(
     @default_config,

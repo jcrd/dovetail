@@ -34,7 +34,7 @@ $(BUILDDIR)/init.lua: init.lua.in
 	sed -e "s|@default_config|'$(DEFAULT_CONFIG)'|" \
 		-e "s|@config_dir|'$(CONFIG_DIR)'|" \
 		-e "s|@config_file|'$(CONFIG_FILE)'|" \
-		-e "s|@assets_path|'$(SHARE_ASSETS)'|" \
+		-e "s|@share_path|'$(DOVETAIL_SHARE)'|" \
 		$< > $@
 
 $(BUILDDIR)/share: clean-share $(BUILDDIR)/init.lua $(LUA_MODULES)
