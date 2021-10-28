@@ -9,8 +9,8 @@ end
 function assets.load(path)
     assets.pomodoro = {
         working = load_image(path, 'pomodoro/ticking.png'),
-        short_break = load_image(path, 'pomodoro/short_break.png'),
-        long_break = load_image(path, 'pomodoro/long_break.png'),
+        short_break = load_image(path, 'pomodoro/short_pause.png'),
+        long_break = load_image(path, 'pomodoro/long_pause.png'),
     }
 end
 
