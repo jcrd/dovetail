@@ -144,7 +144,13 @@ function handler.theme(t)
 end
 
 function handler.widgets(t)
-    config.widgets = t
+    local ws = {}
+    config.widgets = gears.table.map(function (w)
+        if not ws[w] then
+            ws[w] = true
+            return w
+        end
+    end, t)
 end
 
 function handler.options(t)
