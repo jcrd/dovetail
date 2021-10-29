@@ -4,6 +4,7 @@ local beautiful = require('beautiful')
 local dpi = require('beautiful.xresources').apply_dpi
 
 local assets = require('dovetail.assets')
+local config = require('dovetail.config')
 
 local pomo = {}
 pomo.widget = {}
@@ -11,16 +12,9 @@ pomo.widget = {}
 local icons = assets.pomodoro
 local widget
 
-pomo.options = {
-    working = 25 * 60,
-    short_break = 5 * 60,
-    long_break = 20 * 60,
-    set_length = 4,
-}
-
-local times = setmetatable({stopped = pomo.options.working},
-    {__index = pomo.options})
+local times = {}
 local state = {}
+local set_length
 
 local blink_timer = gears.timer {
     timeout = 0.5,
@@ -70,7 +64,7 @@ local function tick()
         return
     end
     if s.name == 'working' then
-        if s.rep == pomo.options.set_length then
+        if s.rep == set_length then
             s.name = 'long_break'
         else
             s.name = 'short_break'
@@ -126,7 +120,6 @@ function pomo.widget.timer()
             visible = false,
         }
     end
-    init()
     return widget
 end
 
@@ -164,5 +157,15 @@ function pomo.restart()
         s.time = times[s.name]
     end
 end
+
+config.add_hook(function (opts)
+    if not widget then
+        return
+    end
+    opts = opts.pomodoro
+    set_length = opts.set_length
+    times = setmetatable({stopped = opts.working}, {__index = opts})
+    init()
+end)
 
 return pomo

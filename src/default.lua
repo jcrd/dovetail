@@ -59,6 +59,12 @@ default.options = {
     fullscreen_audio_notifications = true,
     enable_battery_widget = os.getenv('CHASSIS') == 'laptop',
     screenshot_directory = '~/screenshots',
+    _pomodoro = {
+        working = 25 * 60,
+        short_break = 5 * 60,
+        long_break = 20 * 60,
+        set_length = 4,
+    },
 }
 
 return default

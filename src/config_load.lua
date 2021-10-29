@@ -17,6 +17,7 @@ local inhibit = require('dovetail.inhibit')
 local log = require('dovetail.log')
 local menu = require('dovetail.menu')
 local screenshot = require('dovetail.screenshot')
+local pomodoro = require('dovetail.widgets.pomodoro')
 
 uuid.seed()
 
@@ -151,6 +152,8 @@ function handler.options(t)
 
     menu.workspace.search_paths = t.workspace_search_paths
     screenshot.directory = t.screenshot_directory
+
+    t.pomodoro = gears.table.crush(default.options._pomodoro, t.pomodoro or {})
 
     if t.hide_mouse_on_startup then
         awesome.connect_signal('startup', cmd.mouse.hide)

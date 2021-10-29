@@ -103,6 +103,17 @@ options {
     fullscreen_audio_notifications = true,
     -- Directory where screenshots are saved.
     screenshot_directory = '~/screenshots',
+    -- Pomodoro options.
+    pomodoro = {
+        -- Working timer duration in seconds.
+        working = 25 * 60,
+        -- Short break timer duration in seconds.
+        short_break = 5 * 60,
+        -- Long break timer duration in seconds.
+        long_break = 20 * 60,
+        -- Working timer repetitions per set.
+        set_length = 4,
+    },
 }
 
 -- Notification options.
