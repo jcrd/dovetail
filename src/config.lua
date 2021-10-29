@@ -1,8 +1,9 @@
-local config = {}
+local default = require('dovetail.default')
 
+local config = {}
 local hooks = {}
 
-config.widgets = {}
+config.widgets = default._widgets
 config.options = {}
 
 function config.add_hook(func)

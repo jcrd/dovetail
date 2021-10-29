@@ -37,7 +37,7 @@ default.theme = {
     clock_format = '<span size=\'smaller\' rise=\'1000\'></span> %a, %b %e  %l:%M%P',
 }
 
-default.widgets = {
+default._widgets = {
     'pomodoro',
     'battery',
     'audio',
