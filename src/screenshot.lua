@@ -1,15 +1,17 @@
 local awful = require('awful')
 
-local ss = {}
+local config = require('dovetail.config')
 
-ss.directory = '~/screenshots'
-ss.extension = 'png'
+local ss = {}
 ss.on_command_error = function () end
 
+local directory = '~/screenshots'
+local extension = 'png'
+
 local function spawn(region)
-    local dir = string.gsub(ss.directory, '~', os.getenv('HOME'))
+    local dir = string.gsub(directory, '~', os.getenv('HOME'))
     local path = string.format('%s/%s.%s', dir, os.date('%F-%H-%M-%S'),
-        ss.extension)
+        extension)
     awful.spawn.with_shell(string.format('mkdir -p %s && import %s %s',
         dir,
         region and '' or '-window root',
@@ -27,5 +29,9 @@ function ss.take(region)
             end
         end)
 end
+
+config.add_hook(function (opts)
+    directory = opts.screenshot_directory
+end)
 
 return ss

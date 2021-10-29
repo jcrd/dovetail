@@ -2,15 +2,15 @@ local awful = require('awful')
 
 local workspace = require('awesome-launch.workspace')
 
+local config = require('dovetail.config')
 local selected_tag = require('dovetail.util').selected_tag
 
 local menu = {}
 
-local env = os.getenv('WM_LAUNCH_WORKSPACE_FILENAME')
+local filename = os.getenv('WM_LAUNCH_WORKSPACE_FILENAME') or '.workspace'
+local search_paths = {}
 
 menu.workspace = {}
-menu.workspace.search_paths = {}
-menu.workspace.filename = env or '.workspace'
 
 local function with_output(cmd, func)
     awful.spawn.easy_async_with_shell(cmd, function (out)
@@ -22,12 +22,11 @@ local function with_output(cmd, func)
 end
 
 function menu.workspace.new()
-    if #menu.workspace.search_paths == 0 then
+    if #search_paths == 0 then
         return
     end
-    local paths = table.concat(menu.workspace.search_paths, ' ')
-    local cmd = string.format('find %s -maxdepth 2 -name %s', paths,
-        menu.workspace.filename)
+    local paths = table.concat(search_paths, ' ')
+    local cmd = string.format('find %s -maxdepth 2 -name %s', paths, filename)
     cmd = cmd..' -printf "%h\n" | rofi -dmenu -p workspace'
     with_output(cmd, function (out)
         awful.spawn('wm-launch -w '..out)
@@ -64,5 +63,9 @@ end
 function menu.run()
     awful.spawn('rofi -show run')
 end
+
+config.add_hook(function (opts)
+    search_paths = opts.workspace_search_paths
+end)
 
 return menu

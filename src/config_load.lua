@@ -150,9 +150,6 @@ end
 function handler.options(t)
     config.options = t
 
-    menu.workspace.search_paths = t.workspace_search_paths
-    screenshot.directory = t.screenshot_directory
-
     t.pomodoro = gears.table.crush(default.options._pomodoro, t.pomodoro or {})
 
     if t.hide_mouse_on_startup then
