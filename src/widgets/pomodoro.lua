@@ -36,9 +36,6 @@ blink_timer:connect_signal('stop', function ()
 end)
 
 local function update_state(tbl, k, v)
-    if not widget then
-        return
-    end
     if blink_timer.started then
         blink_timer:stop()
     end
@@ -134,6 +131,9 @@ function pomo.widget.timer()
 end
 
 function pomo.toggle()
+    if not widget then
+        return
+    end
     if s.name == 'stopped' then
         s.name = 'working'
     end
@@ -147,6 +147,9 @@ function pomo.toggle()
 end
 
 function pomo.stop()
+    if not widget then
+        return
+    end
     if s.name ~= 'stopped' then
         timer:stop()
         init()
@@ -154,6 +157,9 @@ function pomo.stop()
 end
 
 function pomo.restart()
+    if not widget then
+        return
+    end
     if s.name ~= 'stopped' then
         s.time = times[s.name]
     end
