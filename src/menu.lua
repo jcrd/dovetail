@@ -56,7 +56,7 @@ function menu.workspace.rename()
 end
 
 function menu.prompt(text, func)
-    local cmd = string.format('rofi -dmenu -lines 0 -p %s', text)
+    local cmd = string.format('rofi -dmenu -l 0 -p %s', text)
     awful.spawn.easy_async(cmd, func)
 end
 
