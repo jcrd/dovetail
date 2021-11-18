@@ -211,6 +211,7 @@ This project is licensed under the MIT License (see [LICENSE](LICENSE)).
 
 ## Acknowledgements
 
-* Pomodoro icons provided by [pomicons][pomicons]
+* Pomodoro icons provided by [pomicons][pomicons] ([LICENSE][pomicons-license])
 
 [pomicons]: https://github.com/gabrielelana/pomicons
+[pomicons-license]: https://creativecommons.org/licenses/by-nc-nd/3.0/
