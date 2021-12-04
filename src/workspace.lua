@@ -13,9 +13,18 @@ local ws = {}
 
 local history = {2, 1}
 
+local function get_layout()
+    local lo = dovetail.layout[config.options.stack_position]
+    if not lo then
+        local default = require('dovetail.default')
+        return dovetail.layout[default.options.stack_position]
+    end
+    return lo
+end
+
 tag.connect_signal('request::default_layouts', function ()
     awful.layout.append_default_layouts {
-        dovetail.layout.left,
+        get_layout(),
         awful.layout.suit.max,
     }
 end)

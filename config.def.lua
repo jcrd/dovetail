@@ -75,6 +75,9 @@ widgets {
 
 -- General options.
 options {
+    -- Position of client stack, one of:
+    -- `left`, `right`, `top`, `bottom`.
+    stack_position = 'left',
     -- Name of the main workspace.
     main_workspace_name = 'main',
     -- Name of a newly created workspace.
