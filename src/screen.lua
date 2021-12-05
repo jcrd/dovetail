@@ -110,7 +110,7 @@ local function stack_indicator(s, c)
         end
         local layout = awful.layout.get(s).name
         local cls = client.focus.screen.tiled_clients
-        if layout == 'max' and #cls > 1 then
+        if (layout == 'max' or layout == 'focal') and #cls > 1 then
             w.visible = true
             return
         end

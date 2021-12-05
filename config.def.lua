@@ -205,11 +205,13 @@ keys {
     -- Focus the previous client in the stack.
     ['M-k'] = cmd.client.focus.prev,
     -- Toggle focus between the master client and the top stack client.
-    ['M-f'] = cmd.client.focus.other,
+    ['M-s'] = cmd.client.focus.other,
     -- Toggle focus between the tiled and floating layers.
-    ['M-S-f'] = cmd.client.focus.other_layer,
+    ['M-S-s'] = cmd.client.focus.other_layer,
     -- Maximize clients.
     ['M-o'] = cmd.client.toggle_max,
+    -- Center the focused client.
+    ['M-f'] = cmd.client.toggle_focal,
     -- Restore the most recently minimized client.
     ['M-S-x'] = cmd.client.unminimize,
 
@@ -265,7 +267,7 @@ keys {
 -- Key bindings that apply only to clients.
 client_keys {
     -- Make the focused client the master client.
-    ['M-s'] = cmd.client.set_master,
+    ['M-a'] = cmd.client.set_master,
     -- Close the focused client.
     ['M-S-d'] = cmd.client.close,
     -- Toggle the focused client's floating state.

@@ -19,7 +19,7 @@ screen.connect_signal('arrange', function (s)
     local cls = s.tiled_clients
     local layout = awful.layout.get(s).name
 
-    if #cls == 1 or layout == 'max' then
+    if (#cls == 1 and layout ~= 'focal') or layout == 'max' then
         for _, c in ipairs(cls) do
             c.border_width = 0
         end

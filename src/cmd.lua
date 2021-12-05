@@ -150,8 +150,12 @@ function cmd.client.unminimize()
         {raise = true})
 end
 
+function cmd.client.toggle_focal()
+    ws.toggle_layout(awful.layout.layouts[2])
+end
+
 function cmd.client.toggle_max()
-    awful.layout.inc(1)
+    ws.toggle_layout(awful.layout.layouts[3])
 end
 
 function cmd.client.toggle_floating(c)

@@ -25,6 +25,7 @@ end
 tag.connect_signal('request::default_layouts', function ()
     awful.layout.append_default_layouts {
         get_layout(),
+        require('dovetail.layout.focal'),
         awful.layout.suit.max,
     }
 end)
@@ -140,6 +141,14 @@ function ws.new(args)
         t:view_only()
     end
     new_workspace(args.name, args)
+end
+
+function ws.toggle_layout(lo)
+    local t = selected_tag()
+    if t.layout.name == lo.name then
+        lo = awful.layout.layouts[1]
+    end
+    awful.layout.set(lo, t)
 end
 
 config.add_hook(function (opts)
