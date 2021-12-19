@@ -7,13 +7,13 @@ require('awful.autofocus')
 local config = require('dovetail.config')
 local ws = require('dovetail.workspace')
 
-local function emit_arrange(t)
-    t.screen:emit_signal('arrange', t.screen)
+local function arrange(t)
+    awful.layout.arrange(t.screen)
 end
 
-tag.connect_signal('tagged', emit_arrange)
-tag.connect_signal('untagged', emit_arrange)
-tag.connect_signal('property::layout', emit_arrange)
+tag.connect_signal('tagged', arrange)
+tag.connect_signal('untagged', arrange)
+tag.connect_signal('property::layout', arrange)
 
 screen.connect_signal('arrange', function (s)
     local cls = s.tiled_clients
