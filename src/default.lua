@@ -45,6 +45,7 @@ default._widgets = {
 
 default.options = {
     stack_position = 'left',
+    focal_width = 0.5,
     main_workspace_name = 'main',
     scratch_workspace_name = 'scratch',
     rename_scratch_workspaces = true,

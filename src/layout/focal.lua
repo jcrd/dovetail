@@ -17,7 +17,6 @@ function focal.arrange(p)
     local cls = p.clients
     local focus = p.focus or client.focus
     local t = p.tag or screen[p.screen].selected_tag
-    local mwfact = t.master_width_factor
     local fidx
 
     -- Check that the focused window is on the right screen
@@ -33,7 +32,7 @@ function focal.arrange(p)
     if not focus then return end
 
     local geometry = {}
-    geometry.width = area.width * (1 - mwfact)
+    geometry.width = area.width * t.focal_width
     geometry.height = area.height
     geometry.x = area.x + (area.width - geometry.width) / 2
     geometry.y = area.y + (area.height - geometry.height) / 2

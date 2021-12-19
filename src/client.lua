@@ -14,6 +14,7 @@ end
 tag.connect_signal('tagged', arrange)
 tag.connect_signal('untagged', arrange)
 tag.connect_signal('property::layout', arrange)
+tag.connect_signal('property::focal_width', arrange)
 
 screen.connect_signal('arrange', function (s)
     local cls = s.tiled_clients

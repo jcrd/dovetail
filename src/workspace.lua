@@ -48,6 +48,7 @@ local function new_workspace(name, args)
     local n = name or config.options.scratch_workspace_name
     local t = workspace.new(n, args)
     t.scratch_workspace = name == nil
+    t.focal_width = config.options.focal_width
     return t
 end
 

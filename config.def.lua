@@ -78,6 +78,9 @@ options {
     -- Position of client stack, one of:
     -- `left`, `right`, `top`, `bottom`.
     stack_position = 'left',
+    -- Percentage of the screen occupied by the focal client,
+    -- given as a value between 0.1 and 1.0.
+    focal_width = 0.5,
     -- Name of the main workspace.
     main_workspace_name = 'main',
     -- Name of a newly created workspace.
@@ -195,9 +198,9 @@ keys {
     -- Move a client to the specified workspace.
     ['M-C-<numrow>'] = cmd.client.move_to_workspace,
     -- Increase size of stack clients.
-    ['M-period'] = {cmd.workspace.adjust_master_width, 0.1},
+    ['M-period'] = {cmd.workspace.adjust_width, 0.1},
     -- Decrease size of stack clients.
-    ['M-comma'] = {cmd.workspace.adjust_master_width, -0.1},
+    ['M-comma'] = {cmd.workspace.adjust_width, -0.1},
 
     -- Clients.
     -- Focus the next client in the stack.

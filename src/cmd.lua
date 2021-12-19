@@ -74,8 +74,16 @@ function cmd.workspace.toggle_panel(args)
     panel.toggle(args.cmd, args)
 end
 
-function cmd.workspace.adjust_master_width(i)
-    awful.tag.incmwfact(i)
+function cmd.workspace.adjust_width(i)
+    local t = selected_tag()
+    if t.layout.name == 'focal' then
+        local w = t.focal_width + i
+        if w >= 0 and w <= 1 then
+            t.focal_width = w
+        end
+    else
+        awful.tag.incmwfact(i, t)
+    end
 end
 
 -- Clients.
