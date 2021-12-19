@@ -1,12 +1,12 @@
-Name: {{{ git_name }}}
-Version: {{{ git_version lead="$(git tag | sed -n 's/^v//p' | sort --version-sort -r | head -n1)" }}}
+Name: {{{ git_cwd_name }}}
+Version: {{{ git_cwd_version lead="$(git tag | sed -n 's/^v//p' | sort --version-sort -r | head -n1)" }}}
 Release: 1%{?dist}
 Summary: An opinionated window manager
 
 License: MIT
 URL: https://github.com/jcrd/dovetail
-VCS: {{{ git_vcs }}}
-Source0: {{{ git_pack }}}
+VCS: {{{ git_cwd_vcs }}}
+Source0: {{{ git_cwd_pack }}}
 
 BuildArch: noarch
 
@@ -30,7 +30,7 @@ Recommends: upower
 An opinionated window manager.
 
 %prep
-{{{ git_setup_macro }}}
+{{{ git_cwd_setup_macro }}}
 
 %build
 %make_build PREFIX=/usr
@@ -47,6 +47,6 @@ An opinionated window manager.
 /etc/xdg/dovetail
 
 %changelog
-{{{ git_changelog }}}
+{{{ git_cwd_changelog }}}
 
 # vim: ft=spec
