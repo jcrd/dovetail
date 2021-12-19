@@ -197,6 +197,7 @@ screen.connect_signal('request::desktop_decoration', function (s)
         screen = s,
         selected = true,
         layout = awful.layout.layouts[1],
+        focal_width = config.options.focal_width,
     })
 
     s.dovetail_taglist = {
