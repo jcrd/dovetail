@@ -8,7 +8,7 @@ dovetail is an opinionated window manager based on
 ## What makes it opinionated?
 
 1. The paradigm
-    * A single, specialized tiling layout
+    * A set of specialized tiling layouts
         * Simple, powerful tiling paradigm that unifies window and visibility management.
     * Virtual desktops as dynamically created workspaces
         * Spawn new workspaces and accompanying clients on the fly.
@@ -128,11 +128,12 @@ the stack.
 
 Interact with clients using (by default) these keybindings:
 
-* `Meta-s` to set the focused client as the master, replacing the current
+* `Meta-a` to set the focused client as the master, replacing the current
   master
 * `Meta-o` to toggle maximized state, effectively placing all clients in the
   stack
-* `Meta-f` to toggle focus between the master and the top stack client
+* `Meta-f` to toggle focal state, centering the master client above the stack
+* `Meta-s` to toggle focus between the master and the top stack client
 * `Meta-j` to focus the next client in the stack
 * `Meta-k` to focus the previous client in the stack
 * `Meta-Shift-d` to close the focused client
