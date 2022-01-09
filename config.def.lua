@@ -95,6 +95,8 @@ options {
     backlight_name = 'default',
     -- Value by which to increment or decrement backlight brightness.
     brightness_step = 10,
+    -- Value by which to increment or decrement audio sink volume.
+    volume_step = 0.05,
     -- Hide the mouse pointer when the window manager starts.
     hide_mouse_on_startup = true,
     -- Allow maximized clients, workaround for clients that set maximized hints
@@ -228,11 +230,11 @@ keys {
 
     -- Audio.
     -- Decrease audio volume.
-    ['XF86AudioLowerVolume'] = {cmd.audio.adjust, -2},
+    ['XF86AudioLowerVolume'] = cmd.audio.volume.dec,
     -- Increase audio volume.
-    ['XF86AudioRaiseVolume'] = {cmd.audio.adjust, 2},
+    ['XF86AudioRaiseVolume'] = cmd.audio.volume.inc,
     -- Toggle audio muted state.
-    ['XF86AudioMute'] = cmd.audio.toggle,
+    ['XF86AudioMute'] = cmd.audio.mute.toggle,
 
     -- Pomodoro.
     -- Start/pause timer.

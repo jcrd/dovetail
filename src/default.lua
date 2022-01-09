@@ -52,6 +52,7 @@ default.options = {
     workspace_search_paths = {},
     backlight_name = 'default',
     brightness_step = 10,
+    volume_step = 0.05,
     inc_brightness_cmd = nil,
     dec_brightness_cmd = nil,
     hide_mouse_on_startup = true,

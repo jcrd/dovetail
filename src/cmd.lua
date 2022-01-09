@@ -280,10 +280,19 @@ cmd.session.brightness = {}
 cmd.session.brightness.inc = backlight('inc_brightness')
 cmd.session.brightness.dec = backlight('dec_brightness')
 
+local function cmd_audio(func_name)
+    return function (v)
+        audio[func_name](v or config.options.volume_step)
+    end
+end
+
 -- Audio.
 cmd.audio = {}
-cmd.audio.adjust = audio.adjust
-cmd.audio.toggle = audio.toggle
+cmd.audio.volume = {}
+cmd.audio.volume.inc = cmd_audio('inc_volume')
+cmd.audio.volume.dec = cmd_audio('dec_volume')
+cmd.audio.mute = {}
+cmd.audio.mute.toggle = audio.toggle_mute
 
 -- Pomodoro.
 cmd.pomodoro = {}

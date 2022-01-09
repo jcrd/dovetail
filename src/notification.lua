@@ -39,7 +39,7 @@ config.add_hook(function (opts)
         local audio = require('dovetail.widgets.audio')
         local audio_notif
 
-        audio.on_update = function (m, v)
+        audio.on_change = function (v, m)
             if not (client.focus and client.focus.fullscreen) then
                 return
             end

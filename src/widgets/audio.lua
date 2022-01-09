@@ -3,123 +3,85 @@ local gears = require('gears')
 local beautiful = require('beautiful')
 local dpi = require('beautiful.xresources').apply_dpi
 
-local pulse = require('pulseaudio_dbus')
+local log = require('dovetail.log')
+
+local session = require('sessiond_dbus')
 
 local audio = {}
 
-local connection_failed = false
-local conn
-local core
-local sink
 local widget
-
-local function get_volume()
-    if not sink then
-        return 0
-    end
-    return sink:get_volume_percent()[1]
-end
-
-local function update_volume(v)
-    v = v or get_volume()
-    if audio.on_update then
-        audio.on_update(sink:is_muted(), v)
-    end
-    if not widget then
-        return
-    end
-    widget.id_progress.value = v
-end
+local backend
+local backend_name
 
 local function format_icon(i)
     return '<span rise="4000">'..i..'</span>'
 end
 
-local function update_muted(m)
-    m = m or sink:is_muted()
-    if audio.on_update then
-        audio.on_update(m, get_volume())
+local function on_change(v, m)
+    if audio.on_change then
+        audio.on_change(v, m)
     end
+
+    print(string.format('on change: %f %s', v, m and 'muted' or 'unmuted'))
+
     if not widget then
         return
     end
+
+    widget.id_progress.value = v
     widget.id_icon.markup = format_icon(audio.widget.icons[m])
+
+    if not widget.visible then
+        widget.visible = true
+    end
 end
 
-local function update()
-    update_volume()
-    update_muted()
-end
-
-local function connect_device(dev)
-    if not dev then
+local function with_backend(func_name, ...)
+    if not backend then
         return
     end
-    if dev.signals.VolumeUpdated then
-        dev:connect_signal(
-            function (s)
-                if s.object_path == sink.object_path then
-                    update_volume()
-                end
-            end, 'VolumeUpdated')
+    if not backend.default then
+        log.error('[audio] Failed to get default sink')
+        return
     end
-    if dev.signals.MuteUpdated then
-        dev:connect_signal(
-            function (s, muted)
-                if s.object_path == sink.object_path then
-                    update_muted(muted)
-                end
-            end, 'MuteUpdated')
-    end
+    backend.default[func_name](...)
 end
 
-local function update_sink(s)
-    if conn then
-        sink = pulse.get_device(conn, s or core:get_sinks()[1])
-        return sink
+local function connect_backend(appear)
+    if not appear then
+        backend = nil
+        if backend_name then
+            log.error('[audio] Lost connection to backend: %s', backend_name)
+            backend_name = nil
+        end
+        return
     end
-end
 
-local function connect()
-    if connection_failed then
-        return false
-    end
-    if not conn then
-        _, conn = xpcall(function ()
-            return pulse.get_connection(pulse.get_address())
-        end,
-        function (err)
-            print(string.format('[pulseaudio] dbus connection failed: %s', err))
-        end)
-        if not conn then
-            widget.visible = false
-            connection_failed = true
-            return false
+    if session.audio_enabled then
+        backend_name = 'sessiond'
+        backend = session.audiosinks
+        session.on_default_audiosink_change = on_change
+    else
+        backend_name = 'pulseaudio'
+        backend = require('dovetail.widgets.backend.pulseaudio').connect()
+        if backend then
+            backend.on_default_audiosink_change = on_change
         end
     end
-    if not core then
-        core = pulse.get_core(conn)
 
-        core:ListenForSignal('org.PulseAudio.Core1.Device.VolumeUpdated', {})
-        core:ListenForSignal('org.PulseAudio.Core1.Device.MuteUpdated', {})
-        core:ListenForSignal('org.PulseAudio.Core1.NewSink', {core.object_path})
-
-        core:connect_signal(function (_, s)
-            connect_device(update_sink(s))
-            update()
-        end, 'NewSink')
-
-        connect_device(update_sink())
-    end
-    if not sink then
-        print('[pulseaudio] failed to get sink')
-        widget.visible = false
-        connection_failed = true
-        return false
+    if not backend then
+        log.error('[audio] Failed to connect to backend: %s', backend_name)
+        return
     end
 
-    return true
+    with_backend('update')
 end
+
+session.add_hook(function (appear)
+    gears.timer.delayed_call(function ()
+        connect_backend(appear)
+    end)
+end)
 
 audio.widget = {}
 audio.widget.icons = {[false] = '', [true] = ''}
@@ -136,7 +98,7 @@ function audio.widget.volumebar()
             {
                 id = 'id_progress',
                 widget = wibox.widget.progressbar,
-                max_value = 100,
+                max_value = 1,
                 forced_width = dpi(50),
                 margins = {
                     top = beautiful.wibar_height / 2 - m,
@@ -149,29 +111,22 @@ function audio.widget.volumebar()
                     or beautiful.bg_normal,
             },
             layout = wibox.layout.fixed.horizontal,
+            visible = false,
         }
-        gears.timer.delayed_call(function ()
-            if connect() then
-                update()
-            end
-        end)
     end
     return widget
 end
 
-function audio.adjust(v)
-    if not connect() then
-        return
-    end
-    local i = math.max(0, math.min(get_volume() + v, 100))
-    sink:set_volume_percent({i})
+function audio.inc_volume(v)
+    with_backend('inc_volume', v)
 end
 
-function audio.toggle()
-    if not connect() then
-        return
-    end
-    sink:toggle_muted()
+function audio.dec_volume(v)
+    with_backend('dec_volume', v)
+end
+
+function audio.toggle_mute()
+    with_backend('toggle_mute')
 end
 
 return audio

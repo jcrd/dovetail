@@ -5,5 +5,5 @@ awesome-launch   0.4.3
 dbus_proxy       0.10.1
 enum             0.1.1
 pulseaudio_dbus  0.12.0
-sessiond_dbus    0.1.1
+sessiond_dbus    0.2.0
 upower_dbus      0.3.0

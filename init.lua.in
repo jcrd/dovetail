@@ -7,8 +7,4 @@ require('dovetail.config_load')(
     @config_dir,
     @config_file)
 
-require('dovetail.client')
-require('dovetail.notification')
-require('dovetail.screen')
-
-require('dovetail.config').run_hooks()
+require('dovetail.main')
