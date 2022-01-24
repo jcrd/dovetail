@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# This project is licensed under the MIT License.
+
+# VERSION: PRE-v0.1.0
+
+set -eu
+
+readonly LUA_TREE="${LUA_TREE:-.lua_tree}"
+readonly LUA_MODULES="${LUA_MODULES:-lua_modules}"
+readonly LUA_TREE_SHARE="$LUA_TREE"/share/lua
+
+make_tree() {
+    if [[ -e rock_versions ]]; then
+        while IFS=' ' read -r name ver; do
+            luarocks --tree "$LUA_TREE" install --deps-mode none "$name" "$ver"
+        done < rock_versions
+    fi
+
+    if [[ -e "$LUA_MODULES"/.rockspecs ]]; then
+        for f in "$LUA_MODULES"/.rockspecs/*.rockspec; do
+            luarocks --tree "$LUA_TREE" build --deps-mode none "$f"
+        done
+    fi
+}
+
+make_modules() {
+    local luaver="$(luarocks config --lua-ver)"
+    mkdir -p "$LUA_MODULES"
+    cp -r "$LUA_TREE_SHARE/$luaver"/* "$LUA_MODULES"
+}
+
+case "${1-}" in
+    -h|--help) echo 'usage: luarocket [tree|modules]'; exit ;;
+    tree) make_tree; exit ;;
+    modules) make_modules; exit ;;
+    *)
+        [[ -d "$LUA_TREE" ]] || make_tree
+        [[ -d "$LUA_MODULES" ]] || make_modules
+esac

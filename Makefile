@@ -42,13 +42,12 @@ $(BUILDDIR)/share: clean-share $(BUILDDIR)/init.lua $(LUA_MODULES)
 	./scripts/make_share.sh $@ $(LUA_MODULES)
 
 $(LUA_TREE):
-	./scripts/make_tree.sh $(LUA_TREE)
+	LUA_TREE=$(LUA_TREE) ./scripts/luarocket tree
 
 init: $(BUILDDIR)/share
 
 $(LUA_MODULES): clean-modules $(LUA_TREE)
-	mkdir -p $(LUA_MODULES)
-	cp -r $(LUA_TREE_SHARE)/* $(LUA_MODULES)
+	LUA_TREE=$(LUA_TREE) LUA_MODULES=$(LUA_MODULES) ./scripts/luarocket modules
 
 install:
 	mkdir -p $(DESTDIR)$(BINPREFIX)
