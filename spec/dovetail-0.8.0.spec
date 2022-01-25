@@ -1,11 +1,11 @@
 Name: dovetail
-Version: 0.7.0
-Release: 2%{?dist}
+Version: 0.8.0
+Release: 1%{?dist}
 Summary: An opinionated window manager
 
 License: MIT
 URL: https://github.com/jcrd/dovetail
-Source0: https://github.com/jcrd/dovetail/archive/v0.7.0.tar.gz
+Source0: https://github.com/jcrd/dovetail/archive/v0.8.0.tar.gz
 
 BuildArch: noarch
 
@@ -46,6 +46,9 @@ An opinionated window manager.
 /etc/xdg/dovetail
 
 %changelog
+* Mon Jan 24 2022 James Reed <james@twiddlingbits.net> - 0.8.0-1
+- Release v0.8.0
+
 * Sun Nov  7 2021 James Reed <james@twiddlingbits.net> - 0.7.0-1
 - Release v0.7.0
 
