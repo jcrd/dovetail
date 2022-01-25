@@ -190,7 +190,7 @@ file, then use these keybindings:
 * bash *[runtime]*
 * pulseaudio *[runtime]*
 * rofi *[runtime]*
-* sessiond >= 0.5.0 *[runtime]*
+* sessiond >= 0.6.0 *[runtime]*
 * wm-launch >= 0.5.0 *[runtime]*
 
 * ImageMagick *[runtime,optional]*
