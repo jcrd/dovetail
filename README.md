@@ -84,7 +84,7 @@ Now, start a `sessiond session` via your display manager.
 See *sessiond*'s [Session management][management] for information about running
 other services in this session.
 
-[management]: https://sessiond.org/session-management/#running-services
+[management]: https://sessiond.org/usage/#running-services
 
 ### Workspace navigation
 
