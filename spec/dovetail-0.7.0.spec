@@ -15,7 +15,7 @@ BuildRequires: make
 Requires: awesome
 Requires: bash
 Requires: rofi
-Requires: sessiond >= 0.5.0
+Requires: sessiond >= 0.6.0
 Requires: wm-launch >= 0.5.0
 Requires: fontawesome-fonts
 
