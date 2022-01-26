@@ -8,6 +8,7 @@ usage() {
 
 options:
   -h  Show help message
+  -r  Replace existing window manager
   -v  Show version'
 }
 
@@ -17,12 +18,14 @@ version() {
 $(awesome --version)"
 }
 
-while getopts ':hv' opt; do
+while getopts ':hrv' opt; do
     case "$opt" in
         h) usage; exit ;;
+        r) replace=true ;;
         v) version; exit ;;
         *) usage >&2; exit 2
     esac
 done
 
-exec awesome --no-argb -s "$DOVETAIL_SHARE"/lua -c "$DOVETAIL_SHARE"/init.lua
+exec awesome ${replace+-r} --no-argb \
+    -s "$DOVETAIL_SHARE"/lua -c "$DOVETAIL_SHARE"/init.lua
