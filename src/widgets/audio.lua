@@ -19,7 +19,7 @@ end
 
 local function on_change(v, m)
     if audio.on_change then
-        audio.on_change(v, m)
+        audio.on_change(v * 100, m)
     end
 
     print(string.format('on change: %f %s', v, m and 'muted' or 'unmuted'))
