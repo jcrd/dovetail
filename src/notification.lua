@@ -3,7 +3,6 @@ local naughty = require('naughty')
 local session = require('sessiond_dbus')
 
 local config = require('dovetail.config')
-local inhibit = require('dovetail.inhibit')
 local screenshot = require('dovetail.screenshot')
 
 naughty.connect_signal('request::display', function (n)

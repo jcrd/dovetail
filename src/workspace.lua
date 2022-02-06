@@ -1,5 +1,4 @@
 local awful = require('awful')
-local beautiful = require('beautiful')
 local gears = require('gears')
 
 local dovetail = require('awesome-dovetail')

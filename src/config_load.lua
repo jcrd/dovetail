@@ -6,7 +6,6 @@ local dpi = require('beautiful.xresources').apply_dpi
 
 local ez = require('awesome-ez')
 local launch = require('awesome-launch')
-local session = require('sessiond_dbus')
 local uuid = require('uuid')
 local workspace = require('awesome-launch.workspace')
 
@@ -15,9 +14,6 @@ local config = require('dovetail.config')
 local default = require('dovetail.default')
 local inhibit = require('dovetail.inhibit')
 local log = require('dovetail.log')
-local menu = require('dovetail.menu')
-local screenshot = require('dovetail.screenshot')
-local pomodoro = require('dovetail.widgets.pomodoro')
 
 uuid.seed()
 
