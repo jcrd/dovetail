@@ -17,7 +17,10 @@ local log = require('dovetail.log')
 
 uuid.seed()
 
-local config_env = {cmd = cmd}
+local config_env = {
+    cmd = cmd,
+    format = string.format,
+}
 local config_dir
 
 local data = default
