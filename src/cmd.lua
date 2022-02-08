@@ -236,6 +236,7 @@ cmd.menu.new_workspace = menu.workspace.new
 cmd.menu.run_workspace = menu.workspace.run
 cmd.menu.rename_workspace = menu.workspace.rename
 cmd.menu.run = menu.run
+cmd.menu.capture_task = menu.capture_task
 
 -- Mouse.
 cmd.mouse = {}

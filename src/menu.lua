@@ -1,4 +1,5 @@
 local awful = require('awful')
+local gears = require('gears')
 
 local workspace = require('awesome-launch.workspace')
 
@@ -11,6 +12,8 @@ local filename = os.getenv('WM_LAUNCH_WORKSPACE_FILENAME') or '.workspace'
 local search_paths = {}
 
 menu.workspace = {}
+
+menu.on_spawn_error = function () end
 
 local function with_output(cmd, func)
     awful.spawn.easy_async_with_shell(cmd, function (out)
@@ -62,6 +65,21 @@ end
 
 function menu.run()
     awful.spawn('rofi -show run')
+end
+
+function menu.capture_task()
+    menu.prompt('task', function (n)
+        if not n:find('project:') then
+            local t = selected_tag()
+            if not (t.index == 1 or t.scratch_workspace) then
+                n = string.format('%s project:%s', n, t.name)
+            end
+        end
+        local r = awful.spawn(string.format('task add %s', n))
+        if type(r) == 'string' then
+            menu.on_spawn_error("Failed to spawn: " .. r)
+        end
+    end)
 end
 
 config.add_hook(function (opts)

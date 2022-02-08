@@ -177,6 +177,8 @@ keys {
     ['M-w'] = cmd.menu.new_workspace,
     -- Prompt for new name of current workspace.
     ['M-r'] = cmd.menu.rename_workspace,
+    -- Prompt for new taskwarrior task.
+    ['M-n'] = cmd.menu.capture_task,
     -- Create `edit` workspace.
     ['M-e'] = {cmd.workspace.new, workspaces.edit},
 

@@ -23,6 +23,7 @@ Requires: fontawesome-fonts
 Recommends: ImageMagick
 Recommends: pulseaudio
 Recommends: upower
+Recommends: task
 
 %global debug_package %{nil}
 

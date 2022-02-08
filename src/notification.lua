@@ -3,6 +3,7 @@ local naughty = require('naughty')
 local session = require('sessiond_dbus')
 
 local config = require('dovetail.config')
+local menu = require('dovetail.menu')
 local screenshot = require('dovetail.screenshot')
 
 naughty.connect_signal('request::display', function (n)
@@ -21,6 +22,14 @@ session.on_backlight_error = function (msg)
     naughty.notification {
         urgency = 'critical',
         title = 'Session backlight error',
+        message = msg,
+    }
+end
+
+menu.on_spawn_error = function (msg)
+    naughty.notification {
+        urgency = 'critical',
+        title = 'Menu spawn error',
         message = msg,
     }
 end
