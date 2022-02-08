@@ -15,7 +15,7 @@ function util.next_valid_client(cs)
     if util.client_is_valid(c) then
         return c
     end
-    return next_valid(cs)
+    return util.next_valid_client(cs)
 end
 
 function util.selected_tag(s)
