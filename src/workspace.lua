@@ -124,7 +124,7 @@ end
 
 function ws.next(i, prompt, func)
     local v = selected_tag()
-    index = v.index + i
+    local index = v.index + i
     if index < 1 then
         index = #v.screen.tags + 1
     end
