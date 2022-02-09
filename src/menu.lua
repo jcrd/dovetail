@@ -24,6 +24,15 @@ local function with_output(cmd, func)
     end)
 end
 
+local function get_workspace_by_pwd(pwd)
+    local ts = awful.screen.focused().tags
+    for _, t in ipairs(ts) do
+        if t.pwd == pwd then
+            return t
+        end
+    end
+end
+
 function menu.workspace.new()
     if #search_paths == 0 then
         return
@@ -32,6 +41,11 @@ function menu.workspace.new()
     local cmd = string.format('find %s -maxdepth 2 -name %s', paths, filename)
     cmd = cmd..' -printf "%h\n" | rofi -dmenu -p workspace'
     with_output(cmd, function (out)
+        local t = get_workspace_by_pwd(out)
+        if t then
+            t:view_only()
+            return
+        end
         awful.spawn('wm-launch -w '..out)
     end)
 end
