@@ -42,15 +42,15 @@ local function arrange(p, ornt, mirror)
 
     -- Client geometries are directly manipulated by awesome.
     -- See https://github.com/awesomeWM/awesome/issues/2676
-    function new_geom(g)
+    local function new_geom(g)
         return {x = g.x, y = g.y, width = g.width, height = g.height}
     end
 
-    function set_geom(c, g)
+    local function set_geom(c, g)
         p.geometries[c] = new_geom(g)
     end
 
-    function arrange_stack(g)
+    local function arrange_stack(g)
         for i, c in ipairs(cls) do
             if i > 1 then
                 set_geom(c, g)
@@ -83,12 +83,13 @@ end
 
 dovetail.layout = {}
 
---- Check if the current layout is a dovetail layout.
+--- Check if a layout is a dovetail layout.
 --
--- @return `true` if the current layout is a dovetail layout.
+-- @param layout The layout or the current layout if nil.
+-- @return `true` if layout is a dovetail layout.
 -- @function layout
-setmetatable(dovetail.layout, {__call = function ()
-    return gears.string.startswith(awful.layout.getname(), "dovetail")
+setmetatable(dovetail.layout, {__call = function (_, layout)
+    return gears.string.startswith(awful.layout.getname(layout), "dovetail")
 end})
 
 function dovetail.layout.skip_gap(nclients)
@@ -137,14 +138,21 @@ local function set_focus(c, name)
     end
 end
 
+local function get_clients(s)
+    local m = awful.client.getmaster(s)
+    for _, c in ipairs(s.tiled_clients) do
+        if c ~= m then
+            return m, c
+        end
+    end
+    return m, nil
+end
+
 local function with_focus(func, c)
     c = c or client.focus
-    if not c then
-        return
+    if c then
+        return func(c, get_clients(c.screen))
     end
-    local master = awful.client.getmaster(c.screen)
-    local z = c.screen.tiled_clients
-    return func(c, master, z[2])
 end
 
 dovetail.focus = {}
@@ -192,6 +200,59 @@ function dovetail.focus.other()
         else
             set_focus(master, name)
         end
+    end)
+end
+
+dovetail.master = {}
+
+--- Swap master client with top stack, focusing stack.
+-- @param no_swap If `true`, only swaps if master client is focused.
+-- @function master.demote
+function dovetail.master.demote(no_swap)
+    local name = "dovetail.master.demote"
+    with_focus(function (c, master, stack)
+        if c == stack and no_swap then
+            return
+        end
+        awful.client.setmaster(stack)
+        if c ~= master then
+            set_focus(master, name)
+        end
+    end)
+end
+
+--- Swap top stack client with master, focusing master.
+-- @param no_swap If `true`, only swaps if top stack client is focused.
+-- @function master.promote
+function dovetail.master.promote(no_swap)
+    local name = "dovetail.master.promote"
+    with_focus(function (c, master, stack)
+        if c == master and no_swap then
+            return
+        end
+        if master then
+            master:raise()
+        end
+        awful.client.setmaster(stack)
+        set_focus(stack, name)
+    end)
+end
+
+--- Send master client to bottom of stack and replace with top stack client,
+--- maintaining focus.
+-- @function master.cycle
+function dovetail.master.cycle()
+    local name = "dovetail.master.cycle"
+    with_focus(function (c, master, stack)
+        if master then
+            master:lower()
+        end
+        local next = awful.client.next(1, stack, true)
+        awful.client.setmaster(stack)
+        if c == stack then
+            stack = next
+        end
+        set_focus(stack, name)
     end)
 end
 

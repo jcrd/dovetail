@@ -215,6 +215,13 @@ keys {
     ['M-s'] = cmd.client.focus.other,
     -- Toggle focus between the tiled and floating layers.
     ['M-S-s'] = cmd.client.focus.other_layer,
+    -- Swap top stack client with master, focusing master.
+    ['M-a'] = cmd.client.master.promote,
+    -- Swap master client with top stack, focusing stack.
+    ['M-d'] = cmd.client.master.demote,
+    -- Send master client to bottom of stack and replace with top stack client,
+    -- maintaining focus.
+    ['M-q'] = cmd.client.master.cycle,
     -- Maximize clients.
     ['M-o'] = cmd.client.toggle_max,
     -- Center the focused client.
@@ -268,13 +275,11 @@ keys {
     -- Hide the mouse pointer.
     ['M-m'] = cmd.mouse.hide,
     -- Close all notifications.
-    ['M-d'] = cmd.notification.destroy_all,
+    ['M-v'] = cmd.notification.destroy_all,
 }
 
 -- Key bindings that apply only to clients.
 client_keys {
-    -- Make the focused client the master client.
-    ['M-a'] = cmd.client.set_master,
     -- Close the focused client.
     ['M-S-d'] = cmd.client.close,
     -- Toggle the focused client's floating state.

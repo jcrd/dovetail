@@ -32,7 +32,7 @@ function cmd.launch(args)
     if args.set_master then
         args.raise_callback = function (c)
             gears.timer.delayed_call(function ()
-                cmd.client.set_master(c)
+                cmd.client.master.set(c)
             end)
         end
     end
@@ -114,13 +114,34 @@ function cmd.client.follow_to_workspace(index)
     cmd.client.move_to_workspace(index, true)
 end
 
-function cmd.client.set_master(c)
-    if not dovetail.layout() then
+local function with_layout(func)
+    local set = not dovetail.layout()
+    if set then
         awful.layout.set(awful.layout.layouts[1], selected_tag())
     end
-    if c ~= awful.client.getmaster(c.screen) then
-        awful.client.setmaster(c)
-    end
+    func(set)
+end
+
+cmd.client.master = {}
+
+function cmd.client.master.set(c)
+    with_layout(function ()
+        if c ~= awful.client.getmaster(c.screen) then
+            awful.client.setmaster(c)
+        end
+    end)
+end
+
+function cmd.client.master.demote()
+    with_layout(dovetail.master.demote)
+end
+
+function cmd.client.master.promote()
+    with_layout(dovetail.master.promote)
+end
+
+function cmd.client.master.cycle()
+    with_layout(dovetail.master.cycle)
 end
 
 function cmd.client.minimize(c)
