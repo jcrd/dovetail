@@ -22,8 +22,6 @@ local function on_change(v, m)
         audio.on_change(v * 100, m)
     end
 
-    print(string.format('on change: %f %s', v, m and 'muted' or 'unmuted'))
-
     if not widget then
         return
     end
