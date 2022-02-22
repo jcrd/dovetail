@@ -128,13 +128,6 @@ function handler.theme(t)
     launch.widget.border_color = t.border_focus
     launch.widget.width = t.wibar_height
 
-    if t.audio_icons then
-        require('audio').widget.icons = t.audio_icons
-    end
-    if t.battery_icons then
-        require('battery').widget.icons = t.battery_icons
-    end
-
     if t.desktop_wallpaper then
         screen.connect_signal('request::wallpaper', function (s)
             gears.wallpaper.set(t.desktop_wallpaper)
