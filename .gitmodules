@@ -1,0 +1,3 @@
+[submodule "src/widgets"]
+	path = src/widgets
+	url = https://github.com/jcrd/awesome-widgets

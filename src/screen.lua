@@ -6,6 +6,7 @@ local wibox = require('wibox')
 local launch = require('awesome-launch')
 local session = require('sessiond_dbus')
 
+local global = require('dovetail.global')
 local audio = require('dovetail.widgets.audio')
 local config = require('dovetail.config')
 local util = require('dovetail.util')
@@ -43,10 +44,19 @@ for _, name in ipairs(config.widgets) do
         w = audio.widget.volumebar()
     elseif name == 'battery' then
         if config.options.enable_battery_widget then
-            w = require('dovetail.widgets.battery').widget.time()
+            local batt = require('dovetail.widgets.battery')
+            batt.init {
+                upower_dbus = require('upower_dbus'),
+            }
+            w = batt.widget.time()
         end
     elseif name == 'pomodoro' then
-        w = require('dovetail.widgets.pomodoro').widget.timer()
+        local pomo = require('dovetail.widgets.pomodoro')
+        pomo.init {
+            path = global.share..'/lua/dovetail/widgets',
+            config = config.options.pomodoro,
+        }
+        w = pomo.widget.timer()
     end
     if w then
         table.insert(info, info_widget(w))
